@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "module": "commonjs",
+    "paths": {
+      "$components/*": ["./src/components/*"],
+      "$helpers/*": ["./src/helpers/*"],
+      "$hooks/*": ["./src/hooks/*"],
+      "$layouts/*": ["./src/layouts/*"],
+      "$config/*": ["./src/config/*"],
+      "$utils/*": ["./src/utils/*"],
+      "$styles/*": ["./src/styles/*"],
+      "$assets/*": ["./assets/*"],
+      "$images/*": ["./assets/images/*"],
+    }
+  },
+  "include": ["src/**/*"]
+}

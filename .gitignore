@@ -1,0 +1,21 @@
+node_modules/
+.expo/
+.env
+dist/
+npm-debug.*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.orig.*
+web-build/
+
+.env
+
+# macOS
+.DS_Store
+
+deploy.bat
+deploy_start.bat
+deploy_storybook.bat
