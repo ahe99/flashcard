@@ -80,6 +80,7 @@ export const DefaultTheme = {
     button: colorPalettes.$4,
     form: colorPalettes.$4,
     input: colorPalettes.$0,
+    inputIcon: withTransparentcy(colorPalettes.$6, transparncy.$40),
     checkbox: colorPalettes.$4,
     checkboxSelected: colorPalettes.$9,
     //Card
