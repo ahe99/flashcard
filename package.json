@@ -8,7 +8,7 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "eject": "expo eject",
-    "storybook": "start-storybook -c ./storybook -p 7007  -h 192.168.0.132",
+    "storybook": "start-storybook -c ./storybook -p 7007",
     "build-storybook": "build-storybook",
     "prestorybook": "rnstl"
   },

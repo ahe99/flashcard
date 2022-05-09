@@ -19,7 +19,7 @@ configure(() => {
 // Refer to https://github.com/storybookjs/react-native/tree/master/app/react-native#getstorybookui-options
 // To find allowed options for getStorybookUI
 const StorybookUIRoot = getStorybookUI({
-  host: '192.168.0.132', // replace this ip address with your local ip address
+  host: '', // replace this ip address with your local ip address
   port: '7007',
   asyncStorage: null,
 
