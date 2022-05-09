@@ -11,8 +11,6 @@ import {StyleText, Loader, Button} from '$components/atoms';
 import {Modal} from '$components/molecules';
 import {CardList, CardForm, GroupForm} from '$components/organisms';
 
-//to fix: need to import this and put it here which is wierd
-import {db} from '$config/firebase';
 
 export const CardListScreen = () => {
   const {cardList, updateCard, deleteCard, createCard, isLoading} = useCards();

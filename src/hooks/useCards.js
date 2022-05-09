@@ -14,6 +14,8 @@ import {
   where,
 } from 'firebase/firestore';
 
+//to fix: need to import this and put it here which is wierd
+import {db} from '$config/firebase';
 import {useToken} from './useToken';
 
 export function useCards() {
