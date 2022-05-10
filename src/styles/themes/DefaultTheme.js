@@ -83,6 +83,7 @@ export const DefaultTheme = {
     inputIcon: withTransparentcy(colorPalettes.$6, transparncy.$40),
     checkbox: colorPalettes.$4,
     checkboxSelected: colorPalettes.$9,
+    imgDefault: colorPalettes.$4,
     //Card
     card: colorPalettes.$white,
     cardOuter: colorPalettes.$16,

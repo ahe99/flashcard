@@ -1,16 +1,15 @@
-import React, {useEffect, useMemo, useState} from 'react';
-import {View, Text, ImageBackground} from 'react-native';
-
+import React, {useMemo, useState} from 'react';
+import {View} from 'react-native';
 
 import {useCards, useGroups} from '$hooks';
 import {Row} from '$layouts/layout';
-import {height, width} from '$helpers/dimensions';
+import {height} from '$helpers/dimensions';
 import images from '$images';
 
 import {StyleText, Loader, Button} from '$components/atoms';
 import {Modal} from '$components/molecules';
 import {CardList, CardForm, GroupForm} from '$components/organisms';
-
+import {ImageBackground} from '$components/templates';
 
 export const CardListScreen = () => {
   const {cardList, updateCard, deleteCard, createCard, isLoading} = useCards();
@@ -49,14 +48,7 @@ export const CardListScreen = () => {
   };
 
   return (
-    <ImageBackground
-      style={{
-        width: width,
-        height: height,
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}
-      source={images.background.cardList}>
+    <ImageBackground source={images.background.cardList}>
       <View>
         {isLoading ? (
           <Loader>

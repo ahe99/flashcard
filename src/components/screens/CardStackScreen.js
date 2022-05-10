@@ -1,5 +1,5 @@
-import React, {useMemo, useState, useEffect, useRef} from 'react';
-import {View, ImageBackground} from 'react-native';
+import React, {useMemo, useState} from 'react';
+import {View} from 'react-native';
 
 import {useCards, useGroups} from '$hooks';
 import {shuffle} from '$utils/random';
@@ -7,7 +7,7 @@ import {height, width} from '$helpers/dimensions';
 import images from '$images';
 
 import {CardStackForm} from '$components/organisms';
-import {CardStack} from '$components/templates';
+import {CardStack, ImageBackground} from '$components/templates';
 
 export const CardStackScreen = () => {
   const [selectedGroups, setSelectedGroups] = useState([]);
@@ -51,14 +51,7 @@ export const CardStackScreen = () => {
   };
 
   return (
-    <ImageBackground
-      style={{
-        width: width,
-        height: height,
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}
-      source={images.background.cardStack}>
+    <ImageBackground source={images.background.cardStack}>
       <View style={{justifyContent: 'center', alignItems: 'center'}}>
         {onSelect ? (
           <View

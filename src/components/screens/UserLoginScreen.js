@@ -1,11 +1,12 @@
-import React, {useEffect} from 'react';
-import {View, ImageBackground} from 'react-native';
+import React from 'react';
+import {View} from 'react-native';
 
 import {useAuth, useToken} from '$hooks';
 import {height, width} from '$helpers/dimensions';
 import images from '$images';
 
 import {UserLoginForm} from '$components/organisms';
+import {ImageBackground} from '$components/templates';
 
 export const UserLoginScreen = ({navigation}) => {
   const {login} = useAuth();
@@ -23,14 +24,7 @@ export const UserLoginScreen = ({navigation}) => {
   };
 
   return (
-    <ImageBackground
-      style={{
-        width: width,
-        height: height,
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}
-      source={images.background.login}>
+    <ImageBackground source={images.background.login}>
       <View
         style={{
           width: width * 0.8,

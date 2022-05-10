@@ -1,27 +1,17 @@
-import React, {useEffect} from 'react';
-import {ImageBackground} from 'react-native';
-
+import React from 'react';
 
 import {Column} from '$layouts/layout';
 import {useTestRecords} from '$hooks';
-import {height, width} from '$helpers/dimensions';
-
 import images from '$images';
 
 import {TestRecordList} from '$components/organisms';
+import {ImageBackground} from '$components/templates';
 
 export const AnalisysScreen = props => {
   const {testRecords} = useTestRecords();
 
   return (
-    <ImageBackground
-      style={{
-        width: width,
-        height: height,
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}
-      source={images.background.anasisys}>
+    <ImageBackground source={images.background.anasisys}>
       <Column
         v="center"
         h="center"
