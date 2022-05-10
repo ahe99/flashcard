@@ -64,7 +64,6 @@ export const CardList = ({
       <Column>
         {noGroupCards && <SplitLine />}
         <GroupItem
-          defaultOpen={true}
           dragDisabled={true}
           toggleDisabled={!Boolean(noGroupCards)}
           group={{title: '...others'}}
