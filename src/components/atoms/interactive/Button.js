@@ -29,6 +29,8 @@ export const Button = ({
           paddingVertical: wrapperStyle.paddingVertical ?? 10,
           paddingHorizontal: wrapperStyle.paddingHorizontal ?? 20,
           opacity: !disabled ? 1 : 0.6,
+          justifyContent: 'center',
+          alignItems: 'center',
         },
       ]}
       disabled={disabled}
