@@ -60,10 +60,13 @@ export const DefaultTheme = {
     icon: colorPalettes.$9,
     border: colorPalettes.$10,
     loader: colorPalettes.$9,
+
     checkbox: colorPalettes.$9,
     checkboxSelected: colorPalettes.$4,
+
     progress: colorPalettes.$9,
     progressGap: colorPalettes.$0,
+
     placeholder: withTransparentcy(colorPalettes.$1, transparncy.$30),
     //Card
     cardContent: colorPalettes.$1,
@@ -74,16 +77,23 @@ export const DefaultTheme = {
   },
   bgColors: {
     mask: withTransparentcy(colorPalettes.$0, transparncy.$80),
+
     modalMask: withTransparentcy(colorPalettes.$2, transparncy.$60),
     modalOuter: colorPalettes.$4,
-    modalInner: colorPalettes.$4,
+    modalInner: colorPalettes.$0,
+
     button: colorPalettes.$4,
+
     form: colorPalettes.$4,
+
     input: colorPalettes.$0,
     inputIcon: withTransparentcy(colorPalettes.$6, transparncy.$40),
+
     checkbox: colorPalettes.$4,
     checkboxSelected: colorPalettes.$9,
-    imgDefault: colorPalettes.$4,
+
+    imgDefault: colorPalettes.$0,
+
     //Card
     card: colorPalettes.$white,
     cardOuter: colorPalettes.$16,
