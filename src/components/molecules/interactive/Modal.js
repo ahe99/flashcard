@@ -1,5 +1,5 @@
 import React from 'react';
-import {View} from 'react-native';
+import {View, ScrollView} from 'react-native';
 import {useTheme} from '@react-navigation/native';
 
 import {Column} from '$layouts/layout';
@@ -66,7 +66,17 @@ export const Modal = ({children, onClose}) => {
               }}
             />
           </View>
-          <View>{children}</View>
+          <ScrollView
+            style={{
+              width: '100%',
+              height: '100%',
+            }}
+            contentContainerStyle={{
+              flexGrow: 1,
+              justifyContent: 'center',
+            }}>
+            {children}
+          </ScrollView>
         </Column>
       </Column>
     </View>

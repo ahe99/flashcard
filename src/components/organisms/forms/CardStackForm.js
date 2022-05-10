@@ -44,51 +44,49 @@ export const CardStackForm = ({
 
   return (
     <View style={wrapperStyle}>
-      <ScrollView contentContainerStyle={{flexGrow: 1}}>
-        <Column
-          flex={1}
-          v="center"
-          h="center"
-          style={{
-            width: '100%',
-            height: '100%',
-            padding: 20,
-          }}>
-          <StyleText>{title}</StyleText>
-          <MultiCheckbox
-            label="groups"
-            data={data['groups']}
-            onChange={val => onChange('groups', val)}
-            options={groupOptions}
+      <Column
+        flex={1}
+        v="center"
+        h="center"
+        style={{
+          width: '100%',
+          height: '100%',
+          padding: 20,
+        }}>
+        <StyleText>{title}</StyleText>
+        <MultiCheckbox
+          label="groups"
+          data={data['groups']}
+          onChange={val => onChange('groups', val)}
+          options={groupOptions}
+        />
+        <Checkbox
+          label="num of cards"
+          data={data['numbers']}
+          options={[
+            {label: 1, value: 1},
+            {label: 5, value: 5},
+            {label: 10, value: 10},
+            {label: 15, value: 15},
+            {label: 20, value: 20},
+          ]}
+          onChange={val => onChange('numbers', val)}
+        />
+        <Row h="space-around" style={{paddingTop: 20, width: '100%'}}>
+          <Button
+            onPress={cancel}
+            iconPrefix={{
+              name: 'arrow-left',
+            }}
           />
-          <Checkbox
-            label="num of cards"
-            data={data['numbers']}
-            options={[
-              {label: 1, value: 1},
-              {label: 5, value: 5},
-              {label: 10, value: 10},
-              {label: 15, value: 15},
-              {label: 20, value: 20},
-            ]}
-            onChange={val => onChange('numbers', val)}
+          <Button
+            onPress={check}
+            iconPrefix={{
+              name: 'check',
+            }}
           />
-          <Row h="space-around" style={{paddingTop: 20, width: '100%'}}>
-            <Button
-              onPress={cancel}
-              iconPrefix={{
-                name: 'arrow-left',
-              }}
-            />
-            <Button
-              onPress={check}
-              iconPrefix={{
-                name: 'check',
-              }}
-            />
-          </Row>
-        </Column>
-      </ScrollView>
+        </Row>
+      </Column>
     </View>
   );
 };

@@ -35,38 +35,36 @@ export const GroupForm = ({
 
   return (
     <View style={wrapperStyle}>
-      <ScrollView contentContainerStyle={{flexGrow: 1}}>
-        <Column
-          flex={1}
-          v="center"
-          h="center"
-          style={{
-            width: '100%',
-            height: '100%',
-            padding: 20,
-          }}>
-          <StyleText>{title}</StyleText>
-          <Input
-            label="name"
-            value={data['title']}
-            onChange={val => onChange('title', val)}
+      <Column
+        flex={1}
+        v="center"
+        h="center"
+        style={{
+          width: '100%',
+          height: '100%',
+          padding: 20,
+        }}>
+        <StyleText>{title}</StyleText>
+        <Input
+          label="name"
+          value={data['title']}
+          onChange={val => onChange('title', val)}
+        />
+        <Row h="space-around" style={{paddingTop: 20, width: '100%'}}>
+          <Button
+            onPress={cancel}
+            iconPrefix={{
+              name: 'arrow-left',
+            }}
           />
-          <Row h="space-around" style={{paddingTop: 20, width: '100%'}}>
-            <Button
-              onPress={cancel}
-              iconPrefix={{
-                name: 'arrow-left',
-              }}
-            />
-            <Button
-              onPress={check}
-              iconPrefix={{
-                name: 'save',
-              }}
-            />
-          </Row>
-        </Column>
-      </ScrollView>
+          <Button
+            onPress={check}
+            iconPrefix={{
+              name: 'save',
+            }}
+          />
+        </Row>
+      </Column>
     </View>
   );
 };

@@ -85,7 +85,6 @@ export const CardListScreen = () => {
               title="Card form"
               cardId={cardId}
               submit={submitCardForm}
-              wrapperStyle={{height: height * 0.7, width: '100%'}}
               cancel={() => setOnEditCard(false)}
               cardList={cardList}
               groupList={groupList}
@@ -98,7 +97,6 @@ export const CardListScreen = () => {
               title="Group form"
               groupId={groupId}
               submit={submitGroupForm}
-              wrapperStyle={{width: '100%'}}
               cancel={() => setOnEditGroup(false)}
               groupList={groupList}
             />
