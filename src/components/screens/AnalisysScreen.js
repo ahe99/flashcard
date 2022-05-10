@@ -1,7 +1,9 @@
 import React from 'react';
+import {View, ScrollView} from 'react-native';
 
 import {Column} from '$layouts/layout';
 import {useTestRecords} from '$hooks';
+import {height, width} from '$helpers/dimensions';
 import images from '$images';
 
 import {TestRecordList} from '$components/organisms';
@@ -12,15 +14,16 @@ export const AnalisysScreen = props => {
 
   return (
     <ImageBackground source={images.background.anasisys}>
-      <Column
-        v="center"
-        h="center"
-        style={{
-          width: '100%',
-          backgroundColor: 'rgb(200,110,60)',
-        }}>
-        <TestRecordList testRecords={testRecords} />
-      </Column>
+      <View style={{width: width * 0.9, height: height * 0.6}}>
+        <ScrollView
+          contentContainerStyle={{
+            flexGrow: 1,
+            justifyContent: 'center',
+          }}
+          style={{width: '100%', height: '100%'}}>
+          <TestRecordList testRecords={testRecords} />
+        </ScrollView>
+      </View>
     </ImageBackground>
   );
 };

@@ -1,9 +1,9 @@
 import React, {useMemo, useState} from 'react';
-import {View} from 'react-native';
+import {View, ScrollView} from 'react-native';
 
 import {useCards, useGroups} from '$hooks';
 import {Row} from '$layouts/layout';
-import {height} from '$helpers/dimensions';
+import {height, width} from '$helpers/dimensions';
 import images from '$images';
 
 import {StyleText, Loader, Button} from '$components/atoms';
@@ -49,100 +49,107 @@ export const CardListScreen = () => {
 
   return (
     <ImageBackground source={images.background.cardList}>
-      <View>
-        {isLoading ? (
-          <Loader>
-            <StyleText>Loading...</StyleText>
-          </Loader>
-        ) : (
-          <CardList
-            cardList={filteredList}
+      {isLoading ? (
+        <Loader>
+          <StyleText>Loading...</StyleText>
+        </Loader>
+      ) : (
+        <View style={{width: width * 0.9, height: height * 0.6}}>
+          <ScrollView
+            contentContainerStyle={{
+              flexGrow: 1,
+              justifyContent: 'center',
+            }}
+            style={{width: '100%', height: '100%'}}>
+            <CardList
+              cardList={filteredList}
+              groupList={groupList}
+              editCard={id => {
+                setOnEditCard(true);
+                setCardId(id);
+              }}
+              deleteCard={id => {
+                setOnDeleteCard(true);
+                setCardId(id);
+              }}
+              toggleVisibleCard={(id, show) =>
+                toggleVisibleCard(id, {show: !show})
+              }
+              editGroup={id => {
+                setOnEditGroup(true);
+                setGroupId(id);
+              }}
+              deleteGroup={id => {
+                setOnDeleteGroup(true);
+                setGroupId(id);
+              }}
+            />
+          </ScrollView>
+        </View>
+      )}
+      {onEditCard && (
+        <Modal onClose={() => setOnEditCard(false)}>
+          <CardForm
+            title="Card form"
+            cardId={cardId}
+            submit={submitCardForm}
+            cancel={() => setOnEditCard(false)}
+            cardList={cardList}
             groupList={groupList}
-            editCard={id => {
-              setOnEditCard(true);
-              setCardId(id);
-            }}
-            deleteCard={id => {
-              setOnDeleteCard(true);
-              setCardId(id);
-            }}
-            toggleVisibleCard={(id, show) =>
-              toggleVisibleCard(id, {show: !show})
-            }
-            editGroup={id => {
-              setOnEditGroup(true);
-              setGroupId(id);
-            }}
-            deleteGroup={id => {
-              setOnDeleteGroup(true);
-              setGroupId(id);
-            }}
           />
-        )}
-        {onEditCard && (
-          <Modal onClose={() => setOnEditCard(false)}>
-            <CardForm
-              title="Card form"
-              cardId={cardId}
-              submit={submitCardForm}
-              cancel={() => setOnEditCard(false)}
-              cardList={cardList}
-              groupList={groupList}
+        </Modal>
+      )}
+      {onEditGroup && (
+        <Modal onClose={() => setOnEditGroup(false)}>
+          <GroupForm
+            title="Group form"
+            groupId={groupId}
+            submit={submitGroupForm}
+            cancel={() => setOnEditGroup(false)}
+            groupList={groupList}
+          />
+        </Modal>
+      )}
+      {onDeleteCard && (
+        <Modal onClose={() => setOnDeleteCard(false)}>
+          <StyleText style={{padding: 40}}>
+            Are you sure want to delete?
+          </StyleText>
+          <Row h="space-between" style={{paddingBottom: 10}}>
+            <Button
+              iconPrefix={{name: 'close'}}
+              onPress={() => setOnDeleteCard(false)}
             />
-          </Modal>
-        )}
-        {onEditGroup && (
-          <Modal onClose={() => setOnEditGroup(false)}>
-            <GroupForm
-              title="Group form"
-              groupId={groupId}
-              submit={submitGroupForm}
-              cancel={() => setOnEditGroup(false)}
-              groupList={groupList}
+            <Button
+              iconPrefix={{name: 'check'}}
+              onPress={() => {
+                deleteCard(cardId);
+                setOnDeleteCard(false);
+              }}
             />
-          </Modal>
-        )}
-        {onDeleteCard && (
-          <Modal onClose={() => setOnDeleteCard(false)}>
-            <StyleText style={{padding: 40}}>
-              Are you sure want to delete?
-            </StyleText>
-            <Row h="space-between" style={{paddingBottom: 10}}>
-              <Button
-                iconPrefix={{name: 'close'}}
-                onPress={() => setOnDeleteCard(false)}
-              />
-              <Button
-                iconPrefix={{name: 'check'}}
-                onPress={() => {
-                  deleteCard(cardId);
-                  setOnDeleteCard(false);
-                }}
-              />
-            </Row>
-          </Modal>
-        )}
-        {onDeleteGroup && (
-          <Modal onClose={() => setOnDeleteGroup(false)}>
-            <StyleText style={{padding: 40}}>
-              Are you sure want to delete?
-            </StyleText>
-            <Row h="space-between" style={{paddingBottom: 10}}>
-              <Button
-                iconPrefix={{name: 'close'}}
-                onPress={() => setOnDeleteGroup(false)}
-              />
-              <Button
-                iconPrefix={{name: 'check'}}
-                onPress={() => {
-                  deleteGroup(groupId);
-                  setOnDeleteGroup(false);
-                }}
-              />
-            </Row>
-          </Modal>
-        )}
-      </View>
+          </Row>
+        </Modal>
+      )}
+      {onDeleteGroup && (
+        <Modal onClose={() => setOnDeleteGroup(false)}>
+          <StyleText style={{padding: 40}}>
+            Are you sure want to delete?
+          </StyleText>
+          <Row h="space-between" style={{paddingBottom: 10}}>
+            <Button
+              iconPrefix={{name: 'close'}}
+              onPress={() => setOnDeleteGroup(false)}
+            />
+            <Button
+              iconPrefix={{name: 'check'}}
+              onPress={() => {
+                deleteGroup(groupId);
+                setOnDeleteGroup(false);
+              }}
+            />
+          </Row>
+        </Modal>
+      )}
     </ImageBackground>
   );
 };
