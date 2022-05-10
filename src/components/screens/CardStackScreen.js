@@ -14,7 +14,7 @@ import {CardStack, ImageBackground} from '$components/templates';
 export const CardStackScreen = () => {
   const [selectedGroups, setSelectedGroups] = useState([]);
   const [selectedNum, setSelectedNum] = useState(5);
-  const [onSetting, setOnSetting] = useState(true);
+  const [onSetting, setOnSetting] = useState(false);
   const [onStart, setOnStart] = useState(false);
   const [testRound, setTestRound] = useState(1);
 
@@ -23,7 +23,6 @@ export const CardStackScreen = () => {
   const {cardList} = useCards();
 
   useEffect(() => {
-    console.log(stackSettings);
     if (stackSettings) {
       setSelectedNum(() => stackSettings.numbers ?? 5);
       setSelectedGroups(() => stackSettings.groups ?? []);
@@ -89,7 +88,7 @@ export const CardStackScreen = () => {
       ) : (
         <View
           style={{
-            width: width * 0.8,
+            width: width * 0.9,
             height: height * 0.6,
             justifyContent: 'center',
             alignItems: 'center',
@@ -100,6 +99,7 @@ export const CardStackScreen = () => {
             wrapperStyle={{width: 100, height: 100}}
             onPress={startStack}
             iconPrefix={{name: 'play', size: 40}}
+            disabled={!filteredList?.length}
           />
           <Button
             wrapperStyle={{
