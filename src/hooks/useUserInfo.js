@@ -39,6 +39,7 @@ export const useUserInfo = () => {
     await updateDoc(userDocRef, {
       stack_setting: data,
     });
+    setUserStackSettings(data);
   };
 
   return {

@@ -2,7 +2,6 @@ import React, {useEffect, useState, useMemo} from 'react';
 import {View, ScrollView} from 'react-native';
 
 import {Row, Column} from '$layouts/layout';
-import {useUserInfo} from '$hooks';
 
 import {StyleText, Input, Button} from '$components/atoms';
 import {Checkbox, MultiCheckbox} from '$components/molecules';
@@ -13,6 +12,7 @@ export const CardStackForm = ({
   cancel = () => {},
   groupList = [],
   wrapperStyle = {},
+  stackSettings = {},
 }) => {
   const [data, setData] = useState({});
 
@@ -25,13 +25,11 @@ export const CardStackForm = ({
     [groupList],
   );
 
-  const userInfo = useUserInfo();
-
   useEffect(() => {
-    if (userInfo && Object.keys(data).length === 0) {
-      setData(userInfo.stackSettings);
+    if (stackSettings && Object.keys(data).length === 0) {
+      setData(stackSettings);
     }
-  }, [userInfo]);
+  }, [stackSettings]);
 
   const onChange = (key, val) => {
     setData(prev => ({...prev, [key]: val}));
@@ -40,7 +38,6 @@ export const CardStackForm = ({
   const check = async () => {
     console.log('check');
     if (submit) {
-      userInfo.updateUserStackSettings(data);
       submit(data);
     }
   };
@@ -79,7 +76,6 @@ export const CardStackForm = ({
           <Row h="space-around" style={{paddingTop: 20, width: '100%'}}>
             <Button
               onPress={cancel}
-              disabled={true}
               iconPrefix={{
                 name: 'arrow-left',
               }}

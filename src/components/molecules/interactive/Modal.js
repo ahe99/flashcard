@@ -8,6 +8,7 @@ import {width, height} from '$helpers/dimensions';
 import {Button} from '$components/atoms';
 
 const SIZE_WIDTH = width * 0.9;
+const SIZE_HEIGHT = height * 0.6;
 
 export const Modal = ({children, onClose}) => {
   const {
@@ -32,6 +33,7 @@ export const Modal = ({children, onClose}) => {
         h="center"
         style={{
           width: SIZE_WIDTH,
+          height: SIZE_HEIGHT,
           borderWidth: 3,
           borderColor: colors.border,
           borderRadius: 20,
