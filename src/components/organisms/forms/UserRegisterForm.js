@@ -3,7 +3,7 @@ import {View, ScrollView} from 'react-native';
 
 import {Row, Column} from '$layouts/layout';
 
-import {StyleText, Input, Button} from '$components/atoms';
+import {StyleText, Input, Button, Loader} from '$components/atoms';
 
 export const UserRegisterForm = ({
   title,
@@ -13,6 +13,7 @@ export const UserRegisterForm = ({
   navigation,
 }) => {
   const [data, setData] = useState({});
+  const [isSubmiting, setIsSubmiting] = useState(false);
 
   const onChange = (key, val) => {
     setData(prev => ({...prev, [key]: val}));
@@ -20,6 +21,7 @@ export const UserRegisterForm = ({
 
   const check = async () => {
     console.log('check');
+    setIsSubmiting(true);
     if (submit) {
       submit(data);
     }
@@ -27,6 +29,7 @@ export const UserRegisterForm = ({
 
   return (
     <View style={wrapperStyle}>
+      {isSubmiting && <Loader />}
       <Column
         flex={1}
         v="center"

@@ -4,7 +4,7 @@ import {View, ScrollView} from 'react-native';
 
 import {Row, Column} from '$layouts/layout';
 
-import {StyleText, Input, Button} from '$components/atoms';
+import {StyleText, Input, Button, Loader} from '$components/atoms';
 
 export const GroupForm = ({
   title,
@@ -15,6 +15,7 @@ export const GroupForm = ({
   wrapperStyle = {},
 }) => {
   const [data, setData] = useState({});
+  const [isSubmiting, setIsSubmiting] = useState(false);
 
   useEffect(() => {
     if (groupId && groupList) {
@@ -28,6 +29,7 @@ export const GroupForm = ({
 
   const check = async () => {
     console.log('check');
+    setIsSubmiting(true);
     if (submit) {
       submit(data);
     }
@@ -35,6 +37,7 @@ export const GroupForm = ({
 
   return (
     <View style={wrapperStyle}>
+      {isSubmiting && <Loader />}
       <Column
         flex={1}
         v="center"

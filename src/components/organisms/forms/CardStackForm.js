@@ -3,7 +3,7 @@ import {View, ScrollView} from 'react-native';
 
 import {Row, Column} from '$layouts/layout';
 
-import {StyleText, Input, Button} from '$components/atoms';
+import {StyleText, Input, Button, Loader} from '$components/atoms';
 import {Checkbox, MultiCheckbox} from '$components/molecules';
 
 export const CardStackForm = ({
@@ -15,6 +15,7 @@ export const CardStackForm = ({
   stackSettings = {},
 }) => {
   const [data, setData] = useState({});
+  const [isSubmiting, setIsSubmiting] = useState(false);
 
   const groupOptions = useMemo(
     () =>
@@ -37,6 +38,7 @@ export const CardStackForm = ({
 
   const check = async () => {
     console.log('check');
+    setIsSubmiting(true);
     if (submit) {
       submit(data);
     }
@@ -44,6 +46,7 @@ export const CardStackForm = ({
 
   return (
     <View style={wrapperStyle}>
+      {isSubmiting && <Loader />}
       <Column
         flex={1}
         v="center"
