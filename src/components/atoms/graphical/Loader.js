@@ -46,12 +46,12 @@ export const Loader = ({size, color, wrapperStyle}) => {
       Animated.sequence([
         Animated.timing(line, {
           toValue: 1,
-          duration: 300,
+          duration: 250,
           useNativeDriver: false,
         }),
         Animated.timing(line, {
           toValue: 0,
-          duration: 300,
+          duration: 250,
           useNativeDriver: false,
         }),
       ]),
