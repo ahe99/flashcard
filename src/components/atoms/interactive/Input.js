@@ -42,8 +42,8 @@ export const Input = ({
             // paddingVertical: wrapperStyle.paddingVertical ?? 10,
             // paddingHorizontal: wrapperStyle.paddingHorizontal ?? 20,
             backgroundColor: wrapperStyle.backgroundColor ?? bgColors.input,
-            shadowColor: showShadow && colors.shadow,
-            elevation: showShadow && 5,
+            shadowColor: showShadow ? colors.shadow : colors.transparent,
+            elevation: showShadow ? 5 : 0,
           },
         ]}>
         {iconPrefix && (

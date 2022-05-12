@@ -32,8 +32,8 @@ export const Button = ({
           opacity: !disabled ? 1 : 0.6,
           justifyContent: 'center',
           alignItems: 'center',
-          shadowColor: showShadow && colors.shadow,
-          elevation: showShadow && 5,
+          shadowColor: showShadow ? colors.shadow : colors.transparent,
+          elevation: showShadow ? 5 : 0,
         },
       ]}
       disabled={disabled}
