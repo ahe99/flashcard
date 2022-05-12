@@ -58,6 +58,7 @@ export const Modal = ({children, onClose}) => {
             <Button
               iconPrefix={{name: 'close'}}
               onPress={onClose}
+              showShadow={false}
               wrapperStyle={{
                 top: 0,
                 right: 0,

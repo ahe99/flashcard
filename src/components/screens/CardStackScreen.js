@@ -112,6 +112,7 @@ export const CardStackScreen = () => {
               borderWidth: 0,
               backgroundColor: 'transparent',
             }}
+            showShadow={false}
             onPress={settingStack}
             iconPrefix={{name: 'cog', size: 30}}
           />
