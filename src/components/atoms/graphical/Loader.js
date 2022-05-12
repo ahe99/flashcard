@@ -80,6 +80,7 @@ export const Loader = ({size, color, wrapperStyle}) => {
         alignItems: 'center',
         position: 'absolute',
         zIndex: 100,
+        elevation: 100,
       }}>
       <Animated.View
         style={{
