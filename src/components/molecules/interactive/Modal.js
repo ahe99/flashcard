@@ -39,6 +39,8 @@ export const Modal = ({children, onClose}) => {
           borderRadius: 20,
           paddingVertical: 20,
           backgroundColor: bgColors.modalOuter,
+          shadowColor: '#000',
+          elevation: 10,
         }}>
         <Column
           v="center"

@@ -17,6 +17,7 @@ export const Input = ({
   textStyle = {},
   isPassword = false,
   multiline = true,
+  showShadow = true,
 }) => {
   const {
     colors,
@@ -41,6 +42,8 @@ export const Input = ({
             // paddingVertical: wrapperStyle.paddingVertical ?? 10,
             // paddingHorizontal: wrapperStyle.paddingHorizontal ?? 20,
             backgroundColor: wrapperStyle.backgroundColor ?? bgColors.input,
+            shadowColor: showShadow && colors.shadow,
+            elevation: showShadow && 5,
           },
         ]}>
         {iconPrefix && (
@@ -59,7 +62,12 @@ export const Input = ({
             />
           </View>
         )}
-        <View style={{flex: 9, alignItems: 'center', justifyContent: 'center'}}>
+        <View
+          style={{
+            flex: 9,
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
           <TextInput
             placeholder={placeholder}
             placeholderTextColor={colors.placeholder}

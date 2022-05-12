@@ -14,6 +14,7 @@ export const Button = ({
   textStyle = {},
   wrapperStyle = {},
   disabled = false,
+  showShadow = true,
 }) => {
   const {colors, bgColors} = useTheme();
 
@@ -31,6 +32,8 @@ export const Button = ({
           opacity: !disabled ? 1 : 0.6,
           justifyContent: 'center',
           alignItems: 'center',
+          shadowColor: showShadow && colors.shadow,
+          elevation: showShadow && 5,
         },
       ]}
       disabled={disabled}

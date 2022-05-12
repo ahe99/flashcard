@@ -60,7 +60,7 @@ export const DefaultTheme = {
     icon: colorPalettes.$9,
     border: colorPalettes.$10,
     loader: colorPalettes.$9,
-
+    shadow: colorPalettes.$black,
     checkbox: colorPalettes.$9,
     checkboxSelected: colorPalettes.$4,
 
