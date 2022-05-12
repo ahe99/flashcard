@@ -23,7 +23,6 @@ export const AnalisysScreen = props => {
           alignItems: 'center',
           backgroundColor: '#fff9',
           borderRadius: 20,
-          padding: 20,
         }}>
         <ScrollView
           contentContainerStyle={{
@@ -31,11 +30,8 @@ export const AnalisysScreen = props => {
             justifyContent: 'center',
           }}
           style={{width: '100%', height: '100%'}}>
-          {isLoading ? (
-            <Loader />
-          ) : (
-            <TestRecordList testRecords={testRecords} />
-          )}
+          {isLoading && <Loader />}
+          <TestRecordList testRecords={testRecords} />
         </ScrollView>
       </View>
     </ImageBackground>

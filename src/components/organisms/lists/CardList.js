@@ -22,7 +22,7 @@ export const CardList = ({
     [cardList],
   );
   return (
-    <Column h="center">
+    <Column h="center" style={{padding: 20}}>
       {groupList.map((group, index) => {
         const filteredCardList = cardList.filter(
           card => card.group === group.title,

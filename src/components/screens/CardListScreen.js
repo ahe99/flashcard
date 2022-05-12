@@ -57,7 +57,6 @@ export const CardListScreen = () => {
           alignItems: 'center',
           backgroundColor: '#fff9',
           borderRadius: 20,
-          padding: 20,
         }}>
         <ScrollView
           contentContainerStyle={{
@@ -65,33 +64,30 @@ export const CardListScreen = () => {
             justifyContent: 'center',
           }}
           style={{width: '100%', height: '100%'}}>
-          {isLoading ? (
-            <Loader />
-          ) : (
-            <CardList
-              cardList={filteredList}
-              groupList={groupList}
-              editCard={id => {
-                setOnEditCard(true);
-                setCardId(id);
-              }}
-              deleteCard={id => {
-                setOnDeleteCard(true);
-                setCardId(id);
-              }}
-              toggleVisibleCard={(id, show) =>
-                toggleVisibleCard(id, {show: !show})
-              }
-              editGroup={id => {
-                setOnEditGroup(true);
-                setGroupId(id);
-              }}
-              deleteGroup={id => {
-                setOnDeleteGroup(true);
-                setGroupId(id);
-              }}
-            />
-          )}
+          {isLoading && <Loader />}
+          <CardList
+            cardList={filteredList}
+            groupList={groupList}
+            editCard={id => {
+              setOnEditCard(true);
+              setCardId(id);
+            }}
+            deleteCard={id => {
+              setOnDeleteCard(true);
+              setCardId(id);
+            }}
+            toggleVisibleCard={(id, show) =>
+              toggleVisibleCard(id, {show: !show})
+            }
+            editGroup={id => {
+              setOnEditGroup(true);
+              setGroupId(id);
+            }}
+            deleteGroup={id => {
+              setOnDeleteGroup(true);
+              setGroupId(id);
+            }}
+          />
         </ScrollView>
       </View>
 
