@@ -61,6 +61,7 @@ export const DefaultTheme = {
     border: colorPalettes.$10,
     loader: colorPalettes.$9,
     shadow: colorPalettes.$black,
+    transparnt: '#0000',
     checkbox: colorPalettes.$9,
     checkboxSelected: colorPalettes.$4,
 
