@@ -5,13 +5,7 @@ import {Row, Column} from '$layouts/layout';
 
 import {StyleText, Input, Button, Loader} from '$components/atoms';
 
-export const UserRegisterForm = ({
-  title,
-  submit,
-  cancel,
-  wrapperStyle = {},
-  navigation,
-}) => {
+export const UserRegisterForm = ({title, submit, cancel, navigation}) => {
   const [data, setData] = useState({});
   const [isSubmiting, setIsSubmiting] = useState(false);
 
@@ -28,7 +22,7 @@ export const UserRegisterForm = ({
   };
 
   return (
-    <View style={wrapperStyle}>
+    <>
       {isSubmiting && <Loader />}
       <Column
         flex={1}
@@ -70,6 +64,6 @@ export const UserRegisterForm = ({
           />
         </Row>
       </Column>
-    </View>
+    </>
   );
 };

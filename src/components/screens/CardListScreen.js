@@ -34,12 +34,12 @@ export const CardListScreen = () => {
   }, [filterValue, cardList]);
 
   const submitCardForm = async data => {
-    updateCard(data.id, data);
+    await updateCard(data.id, data);
     setOnEditCard(false);
   };
 
   const submitGroupForm = async data => {
-    updateGroup(data.id, data);
+    await updateGroup(data.id, data);
     setOnEditGroup(false);
   };
 

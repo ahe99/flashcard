@@ -14,7 +14,6 @@ export const CardForm = ({
   cancel,
   cardList = [],
   groupList = [],
-  wrapperStyle = {},
 }) => {
   const [data, setData] = useState({});
   const [isSubmiting, setIsSubmiting] = useState(false);
@@ -46,7 +45,7 @@ export const CardForm = ({
   };
 
   return (
-    <View style={wrapperStyle}>
+    <>
       {isSubmiting && <Loader />}
       <Column
         flex={1}
@@ -91,6 +90,6 @@ export const CardForm = ({
           />
         </Row>
       </Column>
-    </View>
+    </>
   );
 };

@@ -6,14 +6,7 @@ import {Row, Column} from '$layouts/layout';
 
 import {StyleText, Input, Button, Loader} from '$components/atoms';
 
-export const GroupForm = ({
-  title,
-  groupId,
-  submit,
-  cancel,
-  groupList = [],
-  wrapperStyle = {},
-}) => {
+export const GroupForm = ({title, groupId, submit, cancel, groupList = []}) => {
   const [data, setData] = useState({});
   const [isSubmiting, setIsSubmiting] = useState(false);
 
@@ -36,7 +29,7 @@ export const GroupForm = ({
   };
 
   return (
-    <View style={wrapperStyle}>
+    <>
       {isSubmiting && <Loader />}
       <Column
         flex={1}
@@ -68,6 +61,6 @@ export const GroupForm = ({
           />
         </Row>
       </Column>
-    </View>
+    </>
   );
 };

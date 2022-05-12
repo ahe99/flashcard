@@ -22,47 +22,49 @@ export const UserLoginForm = ({title, submit, cancel}) => {
   };
 
   return (
-    <Column
-      flex={1}
-      v="center"
-      h="center"
-      style={{
-        width: '100%',
-        height: '100%',
-        padding: 20,
-      }}>
+    <>
       {isSubmiting && <Loader />}
-      <StyleText>{title}</StyleText>
-      <Input
-        label="email"
-        value={data['email']}
-        placeholder="kono@example.com"
-        onChange={val => onChange('email', val)}
-        multiline={false}
-        iconPrefix={{name: 'envelope-o'}}
-      />
-      <Input
-        label="password"
-        value={data['password']}
-        onChange={val => onChange('password', val)}
-        multiline={false}
-        isPassword={true}
-        iconPrefix={{name: 'lock'}}
-      />
-      <Row h="space-around" style={{paddingTop: 20, width: '100%'}}>
-        <Button
-          onPress={cancel}
-          iconPrefix={{
-            name: 'pencil',
-          }}
+      <Column
+        flex={1}
+        v="center"
+        h="center"
+        style={{
+          width: '100%',
+          height: '100%',
+          padding: 20,
+        }}>
+        <StyleText>{title}</StyleText>
+        <Input
+          label="email"
+          value={data['email']}
+          placeholder="kono@example.com"
+          onChange={val => onChange('email', val)}
+          multiline={false}
+          iconPrefix={{name: 'envelope-o'}}
         />
-        <Button
-          onPress={check}
-          iconPrefix={{
-            name: 'check',
-          }}
+        <Input
+          label="password"
+          value={data['password']}
+          onChange={val => onChange('password', val)}
+          multiline={false}
+          isPassword={true}
+          iconPrefix={{name: 'lock'}}
         />
-      </Row>
-    </Column>
+        <Row h="space-around" style={{paddingTop: 20, width: '100%'}}>
+          <Button
+            onPress={cancel}
+            iconPrefix={{
+              name: 'pencil',
+            }}
+          />
+          <Button
+            onPress={check}
+            iconPrefix={{
+              name: 'check',
+            }}
+          />
+        </Row>
+      </Column>
+    </>
   );
 };
