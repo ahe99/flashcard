@@ -113,7 +113,7 @@ const App = () => {
 
   const _loadAssetsAsync = async () => {
     const imageAssets = cacheImages([...images.preloadImages]);
-    return Promise.all([...imageAssets]);
+    await Promise.all([...imageAssets]);
   };
 
   if (!isReady) {
