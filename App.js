@@ -1,10 +1,13 @@
 import React, {Fragment, useState, useRef, useEffect} from 'react';
-import {StatusBar, Platform, Text} from 'react-native';
+import {StatusBar, Platform, Text, Image} from 'react-native';
+import AppLoading from 'expo-app-loading';
+import {Asset} from 'expo-asset';
 import {NavigationContainer} from '@react-navigation/native';
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 
+import images from '$images';
 import {DefaultTheme} from '$styles/themes';
 import {useAuth} from '$hooks';
 
@@ -66,36 +69,68 @@ const HomeScreen = () => {
   );
 };
 
-const App = () => {
+const AppContent = () => {
   const {user} = useAuth();
+  return (
+    <Stack.Navigator
+      initialRouteName={!Boolean(user) ? 'UserLoginScreen' : 'HomeScreen'}>
+      {!Boolean(user) ? (
+        <>
+          <Stack.Screen
+            name="UserLoginScreen"
+            component={UserLoginScreen}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="UserRegisterScreen"
+            component={UserRegisterScreen}
+            options={{headerShown: false}}
+          />
+        </>
+      ) : (
+        <Stack.Screen
+          name="HomeScreen"
+          component={HomeScreen}
+          options={{headerShown: false}}
+        />
+      )}
+    </Stack.Navigator>
+  );
+};
+
+const App = () => {
+  const [isReady, setIsReady] = useState(false);
+
+  const cacheImages = _images => {
+    return _images.map(image => {
+      if (typeof image === 'string') {
+        return Image.prefetch(image);
+      } else {
+        return Asset.fromModule(image).downloadAsync();
+      }
+    });
+  };
+
+  const _loadAssetsAsync = async () => {
+    const imageAssets = cacheImages([...images.preloadImages]);
+    return Promise.all([...imageAssets]);
+  };
+
+  if (!isReady) {
+    return (
+      <AppLoading
+        startAsync={_loadAssetsAsync}
+        onFinish={() => setIsReady(true)}
+        onError={console.warn}
+      />
+    );
+  }
 
   return (
     <SafeAreaProvider>
       <NavigationContainer theme={DefaultTheme}>
         <StatusBar backgroundColor={'#997b66'} />
-        <Stack.Navigator
-          initialRouteName={!Boolean(user) ? 'UserLoginScreen' : 'HomeScreen'}>
-          {!Boolean(user) ? (
-            <>
-              <Stack.Screen
-                name="UserLoginScreen"
-                component={UserLoginScreen}
-                options={{headerShown: false}}
-              />
-              <Stack.Screen
-                name="UserRegisterScreen"
-                component={UserRegisterScreen}
-                options={{headerShown: false}}
-              />
-            </>
-          ) : (
-            <Stack.Screen
-              name="HomeScreen"
-              component={HomeScreen}
-              options={{headerShown: false}}
-            />
-          )}
-        </Stack.Navigator>
+        <AppContent />
       </NavigationContainer>
     </SafeAreaProvider>
   );
