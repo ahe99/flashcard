@@ -15,7 +15,8 @@ export const ImageBackground = ({children, defaultColor, source}) => {
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: defaultColor ?? bgColors.imgDefault,
-      }}>
+      }}
+      fadeDuration={0}>
       {children}
     </ImageBackgroundBase>
   );
