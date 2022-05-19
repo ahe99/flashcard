@@ -1,13 +1,13 @@
-import React, {Fragment, useState, useRef, useEffect} from 'react';
-import {StatusBar, Platform, Text, Image} from 'react-native';
-import AppLoading from 'expo-app-loading';
-import {Asset} from 'expo-asset';
+import React, {Fragment, useState, useRef, useEffect, useCallback} from 'react';
+import {StatusBar, Platform} from 'react-native';
+import * as SplashScreen from 'expo-splash-screen';
 import {NavigationContainer} from '@react-navigation/native';
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 
 import images from '$images';
+import {cacheImages} from '$helpers/cache';
 import {DefaultTheme} from '$styles/themes';
 import {useAuth} from '$hooks';
 
@@ -30,7 +30,10 @@ const HomeScreen = () => {
       initialRouteName="CardStackScreen"
       activeColor="#b58463"
       inactiveColor="#997b66"
-      barStyle={{backgroundColor: '#e6ccb299'}}>
+      barStyle={{backgroundColor: '#e6ccb299'}}
+      screenOptions={{
+        lazy: false,
+      }}>
       <Tab.Screen
         name="CardStackScreen"
         component={CardStackScreen}
@@ -101,29 +104,40 @@ const AppContent = () => {
 const App = () => {
   const [isReady, setIsReady] = useState(false);
 
-  const cacheImages = _images => {
-    return _images.map(image => {
-      if (typeof image === 'string') {
-        return Image.prefetch(image);
-      } else {
-        return Asset.fromModule(image).downloadAsync();
+  const _loadAssetsAsync = async () => {
+    try {
+      await SplashScreen.preventAutoHideAsync();
+
+      let preloadImages = [];
+      for (let image of images.background) {
+        preloadImages.push(image);
       }
-    });
+      const imageAssets = cacheImages([...preloadImages]);
+      await Promise.all([...imageAssets]);
+
+      await new Promise(resolve => setTimeout(resolve, 2000));
+    } catch (e) {
+      console.log(e);
+    } finally {
+      setIsReady(true);
+    }
   };
 
-  const _loadAssetsAsync = async () => {
-    const imageAssets = cacheImages([...images.preloadImages]);
-    await Promise.all([...imageAssets]);
-  };
+  useEffect(() => {
+    _loadAssetsAsync();
+  }, []);
+
+  useEffect(() => {
+    if (isReady) {
+      const showAppContent = async () => {
+        await SplashScreen.hideAsync();
+      };
+      showAppContent();
+    }
+  }, [isReady]);
 
   if (!isReady) {
-    return (
-      <AppLoading
-        startAsync={_loadAssetsAsync}
-        onFinish={() => setIsReady(true)}
-        onError={console.warn}
-      />
-    );
+    return null;
   }
 
   return (
