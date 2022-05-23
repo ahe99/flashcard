@@ -6,11 +6,11 @@ export default {
     slug: 'flashcard',
     version: '1.0.0',
     orientation: 'portrait',
-    icon: './assets/icon.png',
+    icon: './assets/flachcard-icon.png',
     splash: {
-      image: './assets/splash.png',
+      image: './assets/flachcard-splash.png',
       resizeMode: 'contain',
-      backgroundColor: '#ffffff',
+      backgroundColor: '#fff1e6',
     },
     updates: {
       fallbackToCacheTimeout: 0,
@@ -23,12 +23,13 @@ export default {
       package: '',
       versionCode: 1,
       adaptiveIcon: {
-        foregroundImage: './assets/adaptive-icon.png',
-        backgroundColor: '#FFFFFF',
+        foregroundImage: './assets/flachcard-icon.png',
+        backgroundColor: '#fff1e6',
       },
     },
     web: {
-      favicon: './assets/favicon.png',
+      favicon: './assets/flachcard-icon.png',
+      backgroundColor: '#fff1e6',
     },
     plugins: [
       ['expo-ads-facebook', {}],
