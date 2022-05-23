@@ -15,7 +15,7 @@ export default {
     updates: {
       fallbackToCacheTimeout: 0,
     },
-    assetBundlePatterns: ['./images/background/*'],
+    assetBundlePatterns: ['**/*'],
     ios: {
       supportsTablet: true,
     },
