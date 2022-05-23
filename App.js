@@ -5,9 +5,10 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
+import FontAwesome from '@expo/vector-icons/FontAwesome';
 
 import images from '$images';
-import {cacheImages} from '$helpers/cache';
+import {cacheImages, cacheFonts} from '$helpers/cache';
 import {DefaultTheme} from '$styles/themes';
 import {useAuth} from '$hooks';
 
@@ -113,7 +114,9 @@ const App = () => {
         preloadImages.push(image);
       }
       const imageAssets = cacheImages([...preloadImages]);
-      await Promise.all([...imageAssets]);
+      const fontAssets = cacheFonts([FontAwesome.font]);
+
+      await Promise.all([...imageAssets, ...fontAssets]);
 
       await new Promise(resolve => setTimeout(resolve, 2000));
     } catch (e) {
