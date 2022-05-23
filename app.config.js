@@ -6,9 +6,9 @@ export default {
     slug: 'flashcard',
     version: '1.0.0',
     orientation: 'portrait',
-    icon: './assets/flachcard-icon.png',
+    icon: './assets/icon.png',
     splash: {
-      image: './assets/flachcard-splash.png',
+      image: './assets/splash.png',
       resizeMode: 'contain',
       backgroundColor: '#fff1e6',
     },
@@ -23,13 +23,12 @@ export default {
       package: '',
       versionCode: 1,
       adaptiveIcon: {
-        foregroundImage: './assets/flachcard-icon.png',
+        foregroundImage: './assets/adaptive-icon.png',
         backgroundColor: '#fff1e6',
       },
     },
     web: {
-      favicon: './assets/flachcard-icon.png',
-      backgroundColor: '#fff1e6',
+      favicon: './assets/favicon.png',
     },
     plugins: [
       ['expo-ads-facebook', {}],
