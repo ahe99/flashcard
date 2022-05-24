@@ -109,10 +109,10 @@ const App = () => {
     try {
       await SplashScreen.preventAutoHideAsync();
 
-      let preloadImages = [];
-      for (let image of images.background) {
-        preloadImages.push(image);
-      }
+      const preloadImages = Object.keys(images.background).map(
+        key => images.background[key],
+      );
+
       const imageAssets = cacheImages([...preloadImages]);
       const fontAssets = cacheFonts([FontAwesome.font]);
 
