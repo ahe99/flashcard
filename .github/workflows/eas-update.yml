@@ -6,7 +6,7 @@ on:
       - develop
 jobs:
   update:
-    name: Install and build
+    name: Install and update
     runs-on: ubuntu-latest
     steps:
       - name: Setup repo
