@@ -1,11 +1,11 @@
-name: EAS Build
-on:
+name: EAS Update
+on: push
   workflow_dispatch:
   push:
     branches:
-      - main
+      - develop
 jobs:
-  build:
+  update:
     name: Install and build
     runs-on: ubuntu-latest
     steps:
@@ -44,5 +44,5 @@ jobs:
       - name: Install dependencies
         run: npm ci --legacy-peer-deps
 
-      - name: Build app
-        run: eas build --profile ${GITHUB_REF_NAME} --platform android --non-interactive
+      - name: Publish update
+        run: eas update --auto
