@@ -13,14 +13,15 @@ export default {
       backgroundColor: '#fff1e6',
     },
     updates: {
-      fallbackToCacheTimeout: 0,
+      fallbackToCacheTimeout: 10,
     },
     assetBundlePatterns: ['**/*'],
     ios: {
       supportsTablet: true,
+      bundleIdentifier: 'com.river.flashcard',
     },
     android: {
-      package: '',
+      package: 'com.river.flashcard',
       versionCode: 1,
       adaptiveIcon: {
         foregroundImage: './assets/adaptive-icon.png',
