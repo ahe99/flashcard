@@ -38,4 +38,4 @@ jobs:
       - name: Install dependencies
         run: npm ci --legacy-peer-deps
       - name: Build on EAS
-        run: eas build --profile ${GITHUB_REF_NAME} --platform all --non-interactive
+        run: eas build --profile ${GITHUB_REF_NAME} --platform android --non-interactive
