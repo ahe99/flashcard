@@ -14,8 +14,12 @@ export default {
     },
     updates: {
       fallbackToCacheTimeout: 10,
+      url: 'https://u.expo.dev/25f5a515-67fa-4180-a47e-1d0d1a67ea3f',
     },
     assetBundlePatterns: ['**/*'],
+    runtimeVersion: {
+      policy: 'sdkVersion',
+    },
     ios: {
       supportsTablet: true,
       bundleIdentifier: 'com.river.flashcard',
