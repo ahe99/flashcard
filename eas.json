@@ -3,17 +3,14 @@
     "version": ">= 0.52.0"
   },
   "build": {
-    "preview": {
+    "develop": {
       "android": {
         "buildType": "apk"
       },
       "ios": {
         "simulator": true
       },
-      "distribution": "internal"
-    },
-    "develop": {
-      "releaseChannel": "develop",
+      "channel": "develop",
       "distribution": "internal"
     },
     "main": {}

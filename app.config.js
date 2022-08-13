@@ -2,7 +2,7 @@ import 'dotenv/config';
 
 export default {
   expo: {
-    name: 'flashcard',
+    name: 'Flashcard',
     slug: 'flashcard',
     version: '1.0.0',
     orientation: 'portrait',
