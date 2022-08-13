@@ -1,0 +1,41 @@
+name: EAS Build
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - develop
+jobs:
+  build:
+    name: Install and build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 16.x
+          cache: npm
+      - name: Setup env
+        run: | 
+          echo FIREBASE_API_KEY = ${{secrets.FIREBASE_API_KEY}} > .env
+          echo FIREBASE_AUTH_DOMAIN = ${{secrets.FIREBASE_AUTH_DOMAIN}} >> .env
+          echo FIREBASE_PROJECT_ID = ${{secrets.FIREBASE_PROJECT_ID}} >> .env
+          echo FIREBASE_STORAGE_BUCKET = ${{secrets.FIREBASE_STORAGE_BUCKET}} >> .env
+          echo FIREBASE_MESSAGING_SENDER_ID = ${{secrets.FIREBASE_MESSAGING_SENDER_ID}} >> .env
+          echo FIREBASE_APP_ID = ${{secrets.FIREBASE_APP_ID}} >> .env
+          echo FIREBASE_MEASUREMENT_ID = ${{secrets.FIREBASE_MEASUREMENT_ID}} >> .env
+          echo FACEBOOK_SCHEME = ${{secrets.FACEBOOK_SCHEME}} >> .env
+          echo FACEBOOK_APP_ID = ${{secrets.FACEBOOK_APP_ID}} >> .env
+          echo FACEBOOK_NATIVE_ADS_ID_ANDROID = ${{secrets.FACEBOOK_NATIVE_ADS_ID_ANDROID}} >> .env
+          echo FACEBOOK_REWARD_ADS_ID_ANDROID = ${{secrets.FACEBOOK_REWARD_ADS_ID_ANDROID}} >> .env
+          echo FACEBOOK_NATIVE_ADS_ID_IOS = ${{secrets.FACEBOOK_NATIVE_ADS_ID_IOS}} >> .env
+          echo FACEBOOK_REWARD_ADS_ID_IOS = ${{secrets.FACEBOOK_REWARD_ADS_ID_IOS}} >> .env
+      - name: Setup Expo and EAS
+        uses: expo/expo-github-action@v7
+        with:
+          expo-version: 5.x
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+      - name: Install dependencies
+        run: npm ci --legacy-peer-deps
+      - name: Build on EAS
+        run: eas build --profile ${GITHUB_REF_NAME} --platform all --non-interactive
