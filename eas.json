@@ -3,19 +3,22 @@
     "version": ">= 0.52.0"
   },
   "build": {
-    "development": {
-      "developmentClient": true,
-      "distribution": "internal"
-    },
     "preview": {
       "android": {
         "buildType": "apk"
       },
+      "ios": {
+        "simulator": true
+      },
       "distribution": "internal"
     },
-    "production": {}
+    "develop": {
+      "releaseChannel": "develop",
+      "distribution": "internal"
+    },
+    "main": {}
   },
   "submit": {
-    "production": {}
+    "main": {}
   }
 }
