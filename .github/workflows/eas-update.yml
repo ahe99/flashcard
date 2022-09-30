@@ -5,8 +5,10 @@ on:
     branches:
       - develop
   pull_request: 
+    types:
+      - opened
     branches:
-      - develop
+      - 'feature/**'
 
 jobs:
   update:
