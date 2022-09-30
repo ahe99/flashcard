@@ -10,12 +10,9 @@ jobs:
   update:
     name: Install and update
     runs-on: ubuntu-latest
-    env:
-      EAS_PROJECT_ID: ${{ secrets.EAS_PROJECT_ID }}
-      DEPLOY_NAME: $GITHUB_REF_NAME
     environment: 
-      name: $GITHUB_REF_NAME
-      url: https://u.expo.dev/${{env.EAS_PROJECT_ID}}?channel-name=${{env.DEPLOY_NAME}}
+      name:  ${{ step.link.outputs.DEPLOYMENT_NAME }}
+      url: ${{ step.link.outputs.DEPLOYMENT_URL }}
     steps:
       - name: Setup repo
         uses: actions/checkout@v2
@@ -55,3 +52,9 @@ jobs:
 
       - name: Publish update
         run: eas update --auto
+
+      - name: Generate environment link
+        id: link
+        run: |
+          echo "::set-output name=DEPLOYMENT_NAME::${{github.ref_name}}"
+          echo "::set-output name=DEPLOYMENT_URL::https://u.expo.dev/${{secrets.EAS_PROJECT_ID}}?channel-name=${{github.ref_name}}"
