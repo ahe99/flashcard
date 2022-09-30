@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       EAS_PROJECT_ID: ${{ secrets.EAS_PROJECT_ID }}
-      DEPLOY_NAME: ${{ GITHUB_REF_NAME }}
+      DEPLOY_NAME: $GITHUB_REF_NAME
     environment: 
       name: $GITHUB_REF_NAME
       url: https://u.expo.dev/${{env.EAS_PROJECT_ID}}?channel-name=${{env.DEPLOY_NAME}}
