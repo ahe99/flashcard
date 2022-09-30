@@ -14,7 +14,7 @@ jobs:
       EAS_PROJECT_ID: ${{ secrets.EAS_PROJECT_ID }}
     environment: 
       name: $GITHUB_REF_NAME
-      url: https://u.expo.dev/${env.EAS_PROJECT_ID}?channel-name=${GITHUB_REF_NAME}
+      url: https://u.expo.dev/${{env.EAS_PROJECT_ID}}?channel-name=${{GITHUB_REF_NAME}}
     steps:
       - name: Setup repo
         uses: actions/checkout@v2
