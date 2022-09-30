@@ -4,6 +4,7 @@ export default {
   expo: {
     name: 'Flashcard',
     slug: 'flashcard',
+    privacy: 'unlisted',
     version: '1.0.0',
     orientation: 'portrait',
     icon: './assets/icon.png',
