@@ -11,7 +11,7 @@ jobs:
     name: Install and update
     runs-on: ubuntu-latest
     environment: 
-      name:  ${{ step.link.outputs.DEPLOYMENT_NAME }}
+      name:  ${{ github.ref_name }}
       url: ${{ step.link.outputs.DEPLOYMENT_URL }}
     steps:
       - name: Setup repo
