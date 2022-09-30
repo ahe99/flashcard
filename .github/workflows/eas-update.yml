@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: 
       name: $GITHUB_REF_NAME
-      url: https://u.expo.dev/$secrets.EAS_PROJECT_ID?channel-name=$GITHUB_REF_NAME
+      url: https://u.expo.dev/${{secrets.EAS_PROJECT_ID}}?channel-name=${{GITHUB_REF_NAME}}
     steps:
       - name: Setup repo
         uses: actions/checkout@v2
