@@ -46,6 +46,9 @@ export default {
     facebookAutoLogAppEventsEnabled: true,
     facebookAdvertiserIDCollectionEnabled: true,
     extra: {
+      eas: {
+        projectId: process.env.EAS_PROJECT_ID,
+      },
       facebookNativeAdsIosID: process.env.FACEBOOK_NATIVE_ADS_ID_IOS,
       facebookNativeAdsAndroidID: process.env.FACEBOOK_NATIVE_ADS_ID_ANDROID,
       facebookRewardAdsIosID: process.env.FACEBOOK_REWARD_ADS_ID_IOS,

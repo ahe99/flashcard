@@ -4,10 +4,15 @@ on:
   push:
     branches:
       - develop
+      - 'feature/**'
+
 jobs:
   update:
     name: Install and update
     runs-on: ubuntu-latest
+    environment: 
+      name:  ${{ github.ref_name }}
+      url: ${{ steps.link.outputs.DEPLOYMENT_URL }}
     steps:
       - name: Setup repo
         uses: actions/checkout@v2
@@ -20,6 +25,7 @@ jobs:
 
       - name: Setup .env
         run: | 
+          echo EAS_PROJECT_ID = ${{secrets.EAS_PROJECT_ID}} > .env
           echo FIREBASE_API_KEY = ${{secrets.FIREBASE_API_KEY}} > .env
           echo FIREBASE_AUTH_DOMAIN = ${{secrets.FIREBASE_AUTH_DOMAIN}} >> .env
           echo FIREBASE_PROJECT_ID = ${{secrets.FIREBASE_PROJECT_ID}} >> .env
@@ -46,3 +52,9 @@ jobs:
 
       - name: Publish update
         run: eas update --auto
+
+      - name: Generate environment link
+        id: link
+        run: |
+          echo "::set-output name=DEPLOYMENT_NAME::${{github.ref_name}}"
+          echo "::set-output name=DEPLOYMENT_URL::https://u.expo.dev/${{secrets.EAS_PROJECT_ID}}?channel-name=${{github.ref_name}}"
