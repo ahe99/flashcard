@@ -5,7 +5,7 @@ export default {
     name: 'Flashcard',
     slug: 'flashcard',
     privacy: 'unlisted',
-    version: '1.0.0',
+    version: '0.1.0',
     orientation: 'portrait',
     icon: './assets/icon.png',
     splash: {
