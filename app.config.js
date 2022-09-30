@@ -47,7 +47,7 @@ export default {
     facebookAdvertiserIDCollectionEnabled: true,
     extra: {
       eas: {
-        projectId: '25f5a515-67fa-4180-a47e-1d0d1a67ea3f',
+        projectId: process.env.EAS_PROJECT_ID,
       },
       facebookNativeAdsIosID: process.env.FACEBOOK_NATIVE_ADS_ID_IOS,
       facebookNativeAdsAndroidID: process.env.FACEBOOK_NATIVE_ADS_ID_ANDROID,
