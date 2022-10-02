@@ -53,6 +53,8 @@ jobs:
         with:
           files: |
             *.config.js
+            eas-build.yml
+            eas.json
 
       - name: Install dependencies
         if: steps.verify-changed-files.outputs.files_changed == 'true'
