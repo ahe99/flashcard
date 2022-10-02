@@ -1,12 +1,15 @@
 # Flashcard app
 
+## Intro
+
+<img src="assets/icon.png" width="150" height="150" style='border-radius:30px'>
+
 Swipable flashcard app that helps people memorize things
 
 (like volcabulary...etc)
 
-![icon](assets/icon.png | width=100)
-
 ---
+## Preview
 
 此開發以`expo`爲基礎，目前可在`Android`、`iOS Simulator`上查看預覽
 
