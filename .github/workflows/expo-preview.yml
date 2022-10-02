@@ -1,20 +1,17 @@
-name: EAS Build
+name: Expo Preview Page
 on:
   workflow_dispatch:
   push:
     branches:
       - develop
-      - main
-    paths:
-      - './app.config.js'
-      - './babel.config.js'
 
 jobs:
-  build:
-    name: Install and build
+  update:
+    name: Install and update
     runs-on: ubuntu-latest
-    env:
-      EAS_PROJECT_ID: 25f5a515-67fa-4180-a47e-1d0d1a67ea3f
+    environment:
+      name: Flashcard preview
+      url: https://expo.dev/@ahe794613/flashcard?release-channel=develop
     steps:
       - name: Setup repo
         uses: actions/checkout@v2
@@ -26,9 +23,8 @@ jobs:
           cache: npm
 
       - name: Setup .env
-        run: | 
-          echo EAS_PROJECT_ID = $EAS_PROJECT_ID > .env
-          echo FIREBASE_API_KEY = ${{secrets.FIREBASE_API_KEY}} >> .env
+        run: |
+          echo FIREBASE_API_KEY = ${{secrets.FIREBASE_API_KEY}} > .env
           echo FIREBASE_AUTH_DOMAIN = ${{secrets.FIREBASE_AUTH_DOMAIN}} >> .env
           echo FIREBASE_PROJECT_ID = ${{secrets.FIREBASE_PROJECT_ID}} >> .env
           echo FIREBASE_STORAGE_BUCKET = ${{secrets.FIREBASE_STORAGE_BUCKET}} >> .env
@@ -45,12 +41,11 @@ jobs:
       - name: Setup Expo and EAS
         uses: expo/expo-github-action@v7
         with:
-          expo-version: 5.x
-          eas-version: latest
+          expo-version: latest
           token: ${{ secrets.EXPO_TOKEN }}
 
       - name: Install dependencies
         run: npm ci --legacy-peer-deps
 
-      - name: Build app
-        run: eas build --profile ${GITHUB_REF_NAME} --platform android --non-interactive
+      - name: Publish preview
+        run: expo publish --release-channel develop --non-interactive

@@ -1,17 +1,20 @@
 name: EAS Update
-on: 
+on:
   workflow_dispatch:
+  pull_request:
   push:
     branches:
       - develop
-      - 'feature/**'
+      - main
 
 jobs:
   update:
     name: Install and update
     runs-on: ubuntu-latest
-    environment: 
-      name:  ${{ github.ref_name }}
+    env:
+      EAS_PROJECT_ID: 25f5a515-67fa-4180-a47e-1d0d1a67ea3f
+    environment:
+      name: ${{ github.ref_name }}
       url: ${{ steps.link.outputs.DEPLOYMENT_URL }}
     steps:
       - name: Setup repo
@@ -24,9 +27,9 @@ jobs:
           cache: npm
 
       - name: Setup .env
-        run: | 
-          echo EAS_PROJECT_ID = ${{secrets.EAS_PROJECT_ID}} > .env
-          echo FIREBASE_API_KEY = ${{secrets.FIREBASE_API_KEY}} > .env
+        run: |
+          echo EAS_PROJECT_ID = $EAS_PROJECT_ID > .env
+          echo FIREBASE_API_KEY = ${{secrets.FIREBASE_API_KEY}} >> .env
           echo FIREBASE_AUTH_DOMAIN = ${{secrets.FIREBASE_AUTH_DOMAIN}} >> .env
           echo FIREBASE_PROJECT_ID = ${{secrets.FIREBASE_PROJECT_ID}} >> .env
           echo FIREBASE_STORAGE_BUCKET = ${{secrets.FIREBASE_STORAGE_BUCKET}} >> .env
@@ -43,7 +46,7 @@ jobs:
       - name: Setup Expo and EAS
         uses: expo/expo-github-action@v7
         with:
-          expo-version: 5.x
+          expo-version: latest
           eas-version: latest
           token: ${{ secrets.EXPO_TOKEN }}
 
@@ -52,9 +55,3 @@ jobs:
 
       - name: Publish update
         run: eas update --auto
-
-      - name: Generate environment link
-        id: link
-        run: |
-          echo "::set-output name=DEPLOYMENT_NAME::${{github.ref_name}}"
-          echo "::set-output name=DEPLOYMENT_URL::https://u.expo.dev/${{secrets.EAS_PROJECT_ID}}?channel-name=${{github.ref_name}}"
