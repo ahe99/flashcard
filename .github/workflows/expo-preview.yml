@@ -10,8 +10,8 @@ jobs:
     name: Install and update
     runs-on: ubuntu-latest
     environment:
-      name: Flashcard preview
-      url: https://expo.dev/@ahe794613/flashcard?release-channel=develop
+      name: preview page
+      url: https://expo.dev/@ahe794613/flashcard?release-channel=preview
     steps:
       - name: Setup repo
         uses: actions/checkout@v2
@@ -48,4 +48,4 @@ jobs:
         run: npm ci --legacy-peer-deps
 
       - name: Publish preview
-        run: expo publish --release-channel develop --non-interactive
+        run: expo publish --release-channel preview --non-interactive
