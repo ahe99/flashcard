@@ -1,4 +1,4 @@
-name: EAS Update
+name: Expo Preview Page
 on:
   workflow_dispatch:
   push:
