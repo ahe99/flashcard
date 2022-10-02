@@ -1,6 +1,6 @@
 # Flashcard app
 
-## Intro
+## Introduction
 
 <kbd>
 <img src="assets/icon.png" width="150" height="150" /></kbd>
