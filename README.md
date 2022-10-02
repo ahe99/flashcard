@@ -4,7 +4,7 @@ Swipable flashcard app that helps people memorize things
 
 (like volcabulary...etc)
 
-<ima alt="icon" src="assets/icon.png" width="200" />
+![icon](assets/icon.png | width=100)
 
 ---
 
