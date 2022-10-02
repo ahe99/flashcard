@@ -51,7 +51,8 @@ jobs:
         uses: tj-actions/verify-changed-files@v11.1
         id: verify-changed-files
         with:
-          files: *.config.js
+          files: |
+            *.config.js
 
       - name: Install dependencies
         if: steps.verify-changed-files.outputs.files_changed == 'true'
