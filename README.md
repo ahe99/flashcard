@@ -2,7 +2,8 @@
 
 ## Intro
 
-<img src="assets/icon.png" width="150" height="150" style="border-radius:30px !important">
+<kbd>
+<img src="assets/icon.png" width="150" height="150" /></kbd>
 
 Swipable flashcard app that helps people memorize things
 
