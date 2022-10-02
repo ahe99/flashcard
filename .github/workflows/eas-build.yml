@@ -6,8 +6,7 @@ on:
       - develop
       - main
     paths:
-      - './app.config.js'
-      - './babel.config.js'
+      - 'app.config.js'
 
 jobs:
   build:
@@ -27,6 +26,7 @@ jobs:
 
       - name: Setup .env
         run: | 
+          sed -i "s@.env@@g" .gitignore
           echo EAS_PROJECT_ID = $EAS_PROJECT_ID > .env
           echo FIREBASE_API_KEY = ${{secrets.FIREBASE_API_KEY}} >> .env
           echo FIREBASE_AUTH_DOMAIN = ${{secrets.FIREBASE_AUTH_DOMAIN}} >> .env

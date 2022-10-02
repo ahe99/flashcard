@@ -46,7 +46,9 @@
     "react-native-svg": "12.3.0",
     "react-native-web": "0.17.7",
     "expo-updates": "~0.13.4",
-    "expo-font": "~10.1.0"
+    "expo-font": "~10.1.0",
+    "expo-dev-client": "~1.0.1",
+    "@storybook/react-native": "next"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
