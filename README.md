@@ -15,7 +15,7 @@ Swipable flashcard app that helps people memorize things
 
 此開發以`expo`爲基礎，目前可在`Android`、`iOS Simulator`上查看預覽
 
-1.下載 expo development client
+1.下載`Flashcard`的`development build`
 
 - [Android](https://expo.dev/artifacts/eas/iFnoxUCGbkuUHMtqGdhyjb.apk)
 - [iOS Simulator](https://expo.dev/artifacts/eas/2CxcEvr5LGDa8XNHJDh98j.tar.gz)(下載後需先解壓)
