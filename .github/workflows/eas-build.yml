@@ -60,4 +60,4 @@ jobs:
 
       - name: Build app
         if: steps.verify-changed-files.outputs.files_changed == 'true'
-        run: eas build --profile ${GITHUB_REF_NAME} --platform android --non-interactive
+        run: eas build --profile ${GITHUB_REF_NAME} --platform all --non-interactive
