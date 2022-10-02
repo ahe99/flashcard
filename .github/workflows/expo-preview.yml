@@ -1,21 +1,17 @@
 name: EAS Update
 on:
   workflow_dispatch:
-  pull_request:
   push:
     branches:
       - develop
-      - main
 
 jobs:
   update:
     name: Install and update
     runs-on: ubuntu-latest
-    env:
-      EAS_PROJECT_ID: 25f5a515-67fa-4180-a47e-1d0d1a67ea3f
     environment:
-      name: ${{ github.ref_name }}
-      url: ${{ steps.link.outputs.DEPLOYMENT_URL }}
+      name: Flashcard preview
+      url: https://expo.dev/@ahe794613/flashcard?release-channel=develop
     steps:
       - name: Setup repo
         uses: actions/checkout@v2
@@ -28,8 +24,7 @@ jobs:
 
       - name: Setup .env
         run: |
-          echo EAS_PROJECT_ID = $EAS_PROJECT_ID > .env
-          echo FIREBASE_API_KEY = ${{secrets.FIREBASE_API_KEY}} >> .env
+          echo FIREBASE_API_KEY = ${{secrets.FIREBASE_API_KEY}} > .env
           echo FIREBASE_AUTH_DOMAIN = ${{secrets.FIREBASE_AUTH_DOMAIN}} >> .env
           echo FIREBASE_PROJECT_ID = ${{secrets.FIREBASE_PROJECT_ID}} >> .env
           echo FIREBASE_STORAGE_BUCKET = ${{secrets.FIREBASE_STORAGE_BUCKET}} >> .env
@@ -47,11 +42,10 @@ jobs:
         uses: expo/expo-github-action@v7
         with:
           expo-version: latest
-          eas-version: latest
           token: ${{ secrets.EXPO_TOKEN }}
 
       - name: Install dependencies
         run: npm ci --legacy-peer-deps
 
-      - name: Publish update
-        run: eas update --auto
+      - name: Publish preview
+        run: expo publish --release-channel develop --non-interactive
