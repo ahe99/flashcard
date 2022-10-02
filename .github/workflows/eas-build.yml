@@ -6,7 +6,7 @@ on:
       - develop
       - main
     paths:
-      - 'app.config.js'
+      - '*.config.js'
 
 jobs:
   build:
