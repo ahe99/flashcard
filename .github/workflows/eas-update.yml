@@ -3,8 +3,9 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - develop
       - 'feature/**'
+      - develop
+      - main
 
 jobs:
   update:
@@ -28,7 +29,7 @@ jobs:
       - name: Setup .env
         run: |
           echo EAS_PROJECT_ID = $EAS_PROJECT_ID > .env
-          echo FIREBASE_API_KEY = ${{secrets.FIREBASE_API_KEY}} > .env
+          echo FIREBASE_API_KEY = ${{secrets.FIREBASE_API_KEY}} >> .env
           echo FIREBASE_AUTH_DOMAIN = ${{secrets.FIREBASE_AUTH_DOMAIN}} >> .env
           echo FIREBASE_PROJECT_ID = ${{secrets.FIREBASE_PROJECT_ID}} >> .env
           echo FIREBASE_STORAGE_BUCKET = ${{secrets.FIREBASE_STORAGE_BUCKET}} >> .env
