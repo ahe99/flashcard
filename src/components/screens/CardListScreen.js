@@ -12,9 +12,8 @@ import {CardList, CardForm, GroupForm} from '$components/organisms';
 import {ImageBackground} from '$components/templates';
 
 export const CardListScreen = () => {
-  const {cardList, updateCard, deleteCard, createCard, isLoading} = useCards();
-
-  const {groupList, deleteGroup, updateGroup} = useGroups();
+  const cards = useCards();
+  const groups = useGroups();
 
   const [onEditCard, setOnEditCard] = useState(false);
   const [onDeleteCard, setOnDeleteCard] = useState(false);
@@ -27,24 +26,24 @@ export const CardListScreen = () => {
 
   const filteredList = useMemo(() => {
     if (filterValue) {
-      return cardList.filter(({group}) => group === filterValue);
+      return cards.data.filter(({group}) => group === filterValue);
     } else {
-      return cardList;
+      return cards.data;
     }
-  }, [filterValue, cardList]);
+  }, [filterValue, cards.data]);
 
   const submitCardForm = async data => {
-    await updateCard(data.id, data);
+    await cards.update(data.id, data);
     setOnEditCard(false);
   };
 
   const submitGroupForm = async data => {
-    await updateGroup(data.id, data);
+    await groups.update(data.id, data);
     setOnEditGroup(false);
   };
 
   const toggleVisibleCard = async (id, data) => {
-    updateCard(id, data);
+    cards.update(id, data);
   };
 
   return (
@@ -64,10 +63,10 @@ export const CardListScreen = () => {
             justifyContent: 'center',
           }}
           style={{width: '100%', height: '100%'}}>
-          {isLoading && <Loader />}
+          {cards.isLoading && <Loader />}
           <CardList
             cardList={filteredList}
-            groupList={groupList}
+            groupList={groups.data}
             editCard={id => {
               setOnEditCard(true);
               setCardId(id);
@@ -98,8 +97,8 @@ export const CardListScreen = () => {
             cardId={cardId}
             submit={submitCardForm}
             cancel={() => setOnEditCard(false)}
-            cardList={cardList}
-            groupList={groupList}
+            cardList={cards.data}
+            groupList={groups.data}
           />
         </Modal>
       )}
@@ -110,7 +109,7 @@ export const CardListScreen = () => {
             groupId={groupId}
             submit={submitGroupForm}
             cancel={() => setOnEditGroup(false)}
-            groupList={groupList}
+            groupList={groups.data}
           />
         </Modal>
       )}
@@ -127,7 +126,7 @@ export const CardListScreen = () => {
             <Button
               iconPrefix={{name: 'check'}}
               onPress={() => {
-                deleteCard(cardId);
+                cards.delete(cardId);
                 setOnDeleteCard(false);
               }}
             />
@@ -147,7 +146,7 @@ export const CardListScreen = () => {
             <Button
               iconPrefix={{name: 'check'}}
               onPress={() => {
-                deleteGroup(groupId);
+                groups.delete(groupId);
                 setOnDeleteGroup(false);
               }}
             />

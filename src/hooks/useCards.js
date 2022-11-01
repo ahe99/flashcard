@@ -90,10 +90,10 @@ export function useCards() {
   }, []);
 
   return {
-    cardList,
-    createCard,
-    updateCard,
-    deleteCard,
+    data: cardList,
+    create: createCard,
+    update: updateCard,
+    delete: deleteCard,
     isLoading,
     isError,
   };

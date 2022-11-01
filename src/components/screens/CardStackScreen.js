@@ -28,9 +28,9 @@ export const CardStackScreen = () => {
   const swipedCards = useRef([]);
 
   const user = useUserInfo();
-  const {createTestRecord} = useTestRecords();
-  const {groupList} = useGroups();
-  const {cardList} = useCards();
+  const records = useTestRecords();
+  const groups = useGroups();
+  const cards = useCards();
 
   useEffect(() => {
     if (user.stackSettings) {
@@ -42,7 +42,7 @@ export const CardStackScreen = () => {
   }, [user.stackSettings]);
 
   const filteredCardList = useMemo(() => {
-    let cards = [...cardList];
+    let cards = [...cards.data];
 
     if (selected.groups) {
       cards = cards.filter(({group}) => selected.groups.includes(group));
@@ -57,10 +57,10 @@ export const CardStackScreen = () => {
     }
 
     return cards;
-  }, [cardList, selected.groups, selected.numbers, testRound]);
+  }, [cards.data, selected.groups, selected.numbers, testRound]);
 
   const submit = async data => {
-    await user.updateUserStackSettings(data);
+    await user.updateStackSettings(data);
 
     setSelected({
       numbers: Number(data.numbers),
@@ -98,7 +98,7 @@ export const CardStackScreen = () => {
   };
 
   const handleSwipeEnd = async () => {
-    await createTestRecord({records: swipedCards.current});
+    await records.create({records: swipedCards.current});
 
     swipedCards.current = [];
     setTestRound(prev => prev + 1);
@@ -156,7 +156,7 @@ export const CardStackScreen = () => {
         <Modal onClose={cancel}>
           <CardStackForm
             title="card stack form"
-            groupList={groupList}
+            groupList={groups.data}
             submit={submit}
             cancel={cancel}
             stackSettings={user.stackSettings}

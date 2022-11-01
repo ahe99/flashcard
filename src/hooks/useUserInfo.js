@@ -37,7 +37,7 @@ export const useUserInfo = () => {
     }
   };
 
-  const updateUserStackSettings = async data => {
+  const updateStackSettings = async data => {
     const userDocRef = doc(db, 'users', await getToken());
     await updateDoc(userDocRef, {
       stack_setting: data,
@@ -49,6 +49,6 @@ export const useUserInfo = () => {
     id: userId,
     name: userName,
     stackSettings: userStackSettings,
-    updateUserStackSettings,
+    updateStackSettings,
   };
 };

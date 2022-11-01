@@ -27,7 +27,7 @@ export const CardStack = ({
   const [reloadEnabled, setReloadEnabled] = useState(false);
   const [isLoadling, setIsLoadling] = useState(true);
 
-  const {updateCard} = useCards();
+  const cards = useCards();
 
   useEffect(() => {
     if (cardList) {
@@ -68,12 +68,12 @@ export const CardStack = ({
 
   const onSwipeLeft = async card => {
     if (card) {
-      updateCard(card.id, {down: card.down + 1});
+      cards.update(card.id, {down: card.down + 1});
     }
   };
   const onSwipeRight = async card => {
     if (card) {
-      updateCard(card.id, {up: card.up + 1});
+      cards.update(card.id, {up: card.up + 1});
     }
   };
 

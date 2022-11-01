@@ -118,10 +118,10 @@ export function useTestRecords() {
   }, []);
 
   return {
-    testRecords,
-    createTestRecord,
-    updateTestRecord,
-    deleteTestRecord,
+    data: testRecords,
+    create: createTestRecord,
+    update: updateTestRecord,
+    delete: deleteTestRecord,
     isLoading,
     isError,
   };

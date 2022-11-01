@@ -84,10 +84,10 @@ export function useGroups() {
   }, []);
 
   return {
-    groupList,
-    createGroup,
-    updateGroup,
-    deleteGroup,
+    data: groupList,
+    create: createGroup,
+    update: updateGroup,
+    delete: deleteGroup,
     isLoading,
     isError,
   };

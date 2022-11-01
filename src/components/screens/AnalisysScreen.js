@@ -11,7 +11,7 @@ import {TestRecordList} from '$components/organisms';
 import {ImageBackground} from '$components/templates';
 
 export const AnalisysScreen = props => {
-  const {testRecords, isLoading} = useTestRecords();
+  const records = useTestRecords();
 
   return (
     <ImageBackground source={images.background.anasisys}>
@@ -30,8 +30,8 @@ export const AnalisysScreen = props => {
             justifyContent: 'center',
           }}
           style={{width: '100%', height: '100%'}}>
-          {isLoading && <Loader />}
-          <TestRecordList testRecords={testRecords} />
+          {records.isLoading && <Loader />}
+          <TestRecordList testRecords={records.data} />
         </ScrollView>
       </View>
     </ImageBackground>

@@ -9,7 +9,7 @@ storiesOf('organisms', module).add('CardStackForm', () => {
 });
 
 const MockDataProvider = () => {
-  const {groupList} = useGroups();
+  const groups = useGroups();
 
   const submit = async data => {
     console.log(data);
@@ -18,7 +18,7 @@ const MockDataProvider = () => {
   return (
     <CardStackForm
       title="CardStack form"
-      groupList={groupList}
+      groupList={groups.data}
       submit={submit}
     />
   );
