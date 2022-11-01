@@ -9,10 +9,18 @@ import {useCards} from '$hooks/useCards';
 import {Button} from '$components/atoms';
 import {SwipeCard} from '$components/organisms';
 
+export const DIRECTION = {
+  TOP: 0,
+  RIGHT: 1,
+  BOTTOM: 2,
+  LEFT: 3,
+};
+
 export const CardStack = ({
   cardList = [],
   wrapperStyle = {},
-  onStackEmpty,
+  onStackEmpty: _onStackEmpty,
+  onSwipe: _onSwipe,
   goBack,
 }) => {
   const [cardStack, setCardStack] = useState([]);
@@ -35,12 +43,25 @@ export const CardStack = ({
   const onSwipeEnd = async () => {
     setCardStack([]);
     setReloadEnabled(true);
-    if (onStackEmpty) {
-      onStackEmpty();
+    if (_onStackEmpty) {
+      _onStackEmpty();
     }
   };
-  const onSwipe = card => {
-    if (card.id === cardStack[cardStack.length - 1]?.id) {
+  const onSwipe = (card, direction) => {
+    if (_onSwipe) {
+      _onSwipe(card, direction);
+    }
+
+    if (direction === DIRECTION.RIGHT) {
+      onSwipeLeft(card);
+    } else if (direction === DIRECTION.LEFT) {
+      onSwipeRight(card);
+    } else {
+      //...
+    }
+
+    const isStackEmpty = card.id === cardStack[cardStack.length - 1]?.id;
+    if (isStackEmpty) {
       onSwipeEnd();
     }
   };
@@ -76,11 +97,11 @@ export const CardStack = ({
             position: 'absolute',
             zIndex: -index + 100,
           }}
-          onSwipe={() => onSwipe(card)}
+          // onSwipe={() => onSwipe(card)}
           // onSwipeTop={() => onSwipeTop(card.id)}
           // onSwipeBottom={() => onSwipeBottom(card.id)}
-          onSwipeLeft={() => onSwipeLeft(card)}
-          onSwipeRight={() => onSwipeRight(card)}
+          onSwipeLeft={() => onSwipe(card, DIRECTION.LEFT)}
+          onSwipeRight={() => onSwipe(card, DIRECTION.RIGHT)}
         />
       ))}
       {!isLoadling && (

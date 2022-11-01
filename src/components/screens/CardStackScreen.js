@@ -1,7 +1,8 @@
-import React, {useEffect, useMemo, useState} from 'react';
+import React, {useEffect, useMemo, useState, useRef} from 'react';
 import {View} from 'react-native';
+import moment from 'moment';
 
-import {useCards, useGroups, useUserInfo} from '$hooks';
+import {useCards, useGroups, useUserInfo, useTestRecords} from '$hooks';
 import {shuffle} from '$utils/random';
 import {height, width} from '$helpers/dimensions';
 import images from '$images';
@@ -9,7 +10,7 @@ import images from '$images';
 import {Button} from '$components/atoms';
 import {Modal} from '$components/molecules';
 import {CardStackForm} from '$components/organisms';
-import {CardStack, ImageBackground} from '$components/templates';
+import {CardStack, DIRECTION, ImageBackground} from '$components/templates';
 
 const SCREEN_ACTION = {
   DEFALUT: 0,
@@ -24,21 +25,23 @@ export const CardStackScreen = () => {
   });
   const [currentAction, setCurrentAction] = useState(SCREEN_ACTION.DEFALUT);
   const [testRound, setTestRound] = useState(1);
+  const swipedCards = useRef([]);
 
-  const {stackSettings, updateUserStackSettings} = useUserInfo();
+  const user = useUserInfo();
+  const {createTestRecord} = useTestRecords();
   const {groupList} = useGroups();
   const {cardList} = useCards();
 
   useEffect(() => {
-    if (stackSettings) {
+    if (user.stackSettings) {
       setSelected({
-        numbers: stackSettings.numbers ?? 5,
-        group: stackSettings.groups ?? [],
+        numbers: user.stackSettings.numbers ?? 5,
+        group: user.stackSettings.groups ?? [],
       });
     }
-  }, [stackSettings]);
+  }, [user.stackSettings]);
 
-  const filteredList = useMemo(() => {
+  const filteredCardList = useMemo(() => {
     let cards = [...cardList];
 
     if (selected.groups) {
@@ -54,10 +57,10 @@ export const CardStackScreen = () => {
     }
 
     return cards;
-  }, [cardList, selected.groups, testRound]);
+  }, [cardList, selected.groups, selected.numbers, testRound]);
 
   const submit = async data => {
-    await updateUserStackSettings(data);
+    await user.updateUserStackSettings(data);
 
     setSelected({
       numbers: Number(data.numbers),
@@ -78,7 +81,26 @@ export const CardStackScreen = () => {
     setCurrentAction(SCREEN_ACTION.SETTING);
   };
 
-  const onStackEmpty = () => {
+  const handleSwipe = (card, direction) => {
+    if (direction === DIRECTION.RIGHT) {
+      swipedCards.current = [
+        ...swipedCards.current,
+        {card_id: card.id, card_title: card.title, type: 'up'},
+      ];
+    } else if (direction === DIRECTION.LEFT) {
+      swipedCards.current = [
+        ...swipedCards.current,
+        {card_id: card.id, card_title: card.title, type: 'down'},
+      ];
+    } else {
+      //...
+    }
+  };
+
+  const handleSwipeEnd = async () => {
+    await createTestRecord({records: swipedCards.current});
+
+    swipedCards.current = [];
     setTestRound(prev => prev + 1);
   };
 
@@ -90,11 +112,12 @@ export const CardStackScreen = () => {
     <ImageBackground source={images.background.cardStack}>
       {currentAction === SCREEN_ACTION.STACK ? (
         <CardStack
-          cardList={filteredList}
+          cardList={filteredCardList}
           goBack={goBackFromStack}
           selectedGroups={selected.groups}
           selectedNum={selected.numbers}
-          onStackEmpty={onStackEmpty}
+          onSwipe={handleSwipe}
+          onStackEmpty={handleSwipeEnd}
         />
       ) : (
         <View
@@ -110,7 +133,7 @@ export const CardStackScreen = () => {
             wrapperStyle={{width: 100, height: 100}}
             onPress={startStack}
             iconPrefix={{name: 'play', size: 40}}
-            disabled={!filteredList?.length}
+            disabled={!filteredCardList?.length}
           />
           <Button
             wrapperStyle={{
@@ -136,7 +159,7 @@ export const CardStackScreen = () => {
             groupList={groupList}
             submit={submit}
             cancel={cancel}
-            stackSettings={stackSettings}
+            stackSettings={user.stackSettings}
           />
         </Modal>
       )}
