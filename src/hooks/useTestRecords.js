@@ -13,9 +13,10 @@ import {
   query,
   where,
   serverTimestamp,
+  orderBy,
 } from 'firebase/firestore';
 
-import {getFormattedTimestamp} from '$utils/date';
+import {formattedTimestampToDateTime} from '$utils/date';
 //to fix: need to import this and put it here which is wierd
 import {db} from '$config/firebase';
 
@@ -37,6 +38,7 @@ export function useTestRecords() {
     const docRef = query(
       testsCollection,
       where('owner', '==', await getToken()),
+      orderBy('created_at', 'desc'),
     );
 
     const docSnap = await getDocs(docRef);
@@ -44,7 +46,7 @@ export function useTestRecords() {
     docSnap.forEach(doc => {
       data.push({
         ...doc.data(),
-        created_at: getFormattedTimestamp(doc.data().created_at),
+        created_at: formattedTimestampToDateTime(doc.data().created_at),
       });
     });
 
@@ -71,6 +73,7 @@ export function useTestRecords() {
     const docRef = query(
       testsCollection,
       where('owner', '==', await getToken()),
+      orderBy('created_at', 'desc'),
     );
 
     const docSnap = await getDocs(docRef);
