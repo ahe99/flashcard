@@ -11,11 +11,18 @@ import {Modal} from '$components/molecules';
 import {CardStackForm} from '$components/organisms';
 import {CardStack, ImageBackground} from '$components/templates';
 
+const SCREEN_ACTION = {
+  DEFALUT: 0,
+  SETTING: 1,
+  STACK: 2,
+};
+
 export const CardStackScreen = () => {
-  const [selectedGroups, setSelectedGroups] = useState([]);
-  const [selectedNum, setSelectedNum] = useState(5);
-  const [onSetting, setOnSetting] = useState(false);
-  const [onStart, setOnStart] = useState(false);
+  const [selected, setSelected] = useState({
+    groups: [],
+    numbers: 5,
+  });
+  const [currentAction, setCurrentAction] = useState(SCREEN_ACTION.DEFALUT);
   const [testRound, setTestRound] = useState(1);
 
   const {stackSettings, updateUserStackSettings} = useUserInfo();
@@ -24,47 +31,51 @@ export const CardStackScreen = () => {
 
   useEffect(() => {
     if (stackSettings) {
-      setSelectedNum(() => stackSettings.numbers ?? 5);
-      setSelectedGroups(() => stackSettings.groups ?? []);
+      setSelected({
+        numbers: stackSettings.numbers ?? 5,
+        group: stackSettings.groups ?? [],
+      });
     }
   }, [stackSettings]);
 
   const filteredList = useMemo(() => {
     let cards = [...cardList];
 
-    if (selectedGroups) {
-      cards = cards.filter(({group}) => selectedGroups.includes(group));
+    if (selected.groups) {
+      cards = cards.filter(({group}) => selected.groups.includes(group));
     }
 
     cards = shuffle(cards);
 
-    if (selectedNum) {
-      if (selectedNum < cards.length) {
-        cards = cards.slice(0, selectedNum);
+    if (selected.numbers) {
+      if (selected.numbers < cards.length) {
+        cards = cards.slice(0, selected.numbers);
       }
     }
 
     return cards;
-  }, [cardList, selectedGroups, testRound]);
+  }, [cardList, selected.groups, testRound]);
 
   const submit = async data => {
     await updateUserStackSettings(data);
 
-    setSelectedGroups(data.groups);
-    setSelectedNum(Number(data.numbers));
-    setOnSetting(false);
+    setSelected({
+      numbers: Number(data.numbers),
+      group: data.groups ?? [],
+    });
+    setCurrentAction(SCREEN_ACTION.DEFALUT);
   };
 
   const cancel = async () => {
-    setOnSetting(false);
+    setCurrentAction(SCREEN_ACTION.DEFALUT);
   };
 
   const startStack = async () => {
-    setOnStart(true);
+    setCurrentAction(SCREEN_ACTION.STACK);
   };
 
   const settingStack = async () => {
-    setOnSetting(true);
+    setCurrentAction(SCREEN_ACTION.SETTING);
   };
 
   const onStackEmpty = () => {
@@ -72,17 +83,17 @@ export const CardStackScreen = () => {
   };
 
   const goBackFromStack = async () => {
-    setOnStart(false);
+    setCurrentAction(SCREEN_ACTION.DEFALUT);
   };
 
   return (
     <ImageBackground source={images.background.cardStack}>
-      {onStart ? (
+      {currentAction === SCREEN_ACTION.STACK ? (
         <CardStack
           cardList={filteredList}
           goBack={goBackFromStack}
-          selectedGroups={selectedGroups}
-          selectedNum={selectedNum}
+          selectedGroups={selected.groups}
+          selectedNum={selected.numbers}
           onStackEmpty={onStackEmpty}
         />
       ) : (
@@ -118,7 +129,7 @@ export const CardStackScreen = () => {
           />
         </View>
       )}
-      {onSetting && (
+      {currentAction === SCREEN_ACTION.SETTING && (
         <Modal onClose={cancel}>
           <CardStackForm
             title="card stack form"
