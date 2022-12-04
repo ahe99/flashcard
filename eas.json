@@ -4,6 +4,7 @@
   },
   "build": {
     "develop": {
+      "channel": "develop",
       "distribution": "internal",
       "developmentClient": true,
       "android": {
@@ -11,10 +12,17 @@
       },
       "ios": {
         "simulator": true
-      },
-      "channel": "develop"
+      }
     },
-    "main": {}
+    "main": {
+      "channel": "main",
+      "android": {
+        "buildType": "apk"
+      },
+      "ios": {
+        "simulator": true
+      }
+    }
   },
   "submit": {
     "main": {}
