@@ -21,15 +21,13 @@ import Constants from 'expo-constants';
 
 // for sdk 46 the path should be replaced with Constants.expoConfig
 const firebaseConfig = {
-  apiKey: Constants.manifest2?.extra?.expoClient.extra.firebaseApiKey,
-  authDomain: Constants.manifest2?.extra?.expoClient.extra.firebaseAuthDomain,
-  projectId: Constants.manifest2?.extra?.expoClient.extra.firebaseProjectId,
-  storageBucket:
-    Constants.manifest2?.extra?.expoClient.extra.firebaseStorageBucket,
-  messagingSenderId:
-    Constants.manifest2?.extra?.expoClient.extra.firebaseMessagingSenderId,
-  appId: Constants.manifest2?.extra?.expoClient.extra.firebaseAppId,
-  measurementId: Constants.manifest2?.extra?.expoClient.extra.measurementId,
+  apiKey: Constants.expoConfig.extra.firebaseApiKey,
+  authDomain: Constants.expoConfig.extra.firebaseAuthDomain,
+  projectId: Constants.expoConfig.extra.firebaseProjectId,
+  storageBucket: Constants.expoConfig.extra.firebaseStorageBucket,
+  messagingSenderId: Constants.expoConfig.extra.firebaseMessagingSenderId,
+  appId: Constants.expoConfig.extra.firebaseAppId,
+  measurementId: Constants.expoConfig.extra.measurementId,
 };
 let app;
 let auth;
