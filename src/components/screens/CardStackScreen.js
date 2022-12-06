@@ -42,21 +42,23 @@ export const CardStackScreen = () => {
   }, [user.stackSettings]);
 
   const filteredCardList = useMemo(() => {
-    let cards = [...cards.data];
+    let resultStack = [...cards.data];
 
     if (selected.groups) {
-      cards = cards.filter(({group}) => selected.groups.includes(group));
+      resultStack = resultStack.filter(({group}) =>
+        selected.groups.includes(group),
+      );
     }
 
-    cards = shuffle(cards);
+    resultStack = shuffle(resultStack);
 
     if (selected.numbers) {
-      if (selected.numbers < cards.length) {
-        cards = cards.slice(0, selected.numbers);
+      if (selected.numbers < resultStack.length) {
+        resultStack = resultStack.slice(0, selected.numbers);
       }
     }
 
-    return cards;
+    return resultStack;
   }, [cards.data, selected.groups, selected.numbers, testRound]);
 
   const submit = async data => {

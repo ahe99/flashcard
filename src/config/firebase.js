@@ -2,7 +2,7 @@
 import {getApps, getApp, initializeApp} from 'firebase/app';
 // import {getAnalytics} from 'firebase/analytics';
 import {getAuth} from 'firebase/auth';
-import {getFirestore} from 'firebase/firestore';
+import {getFirestore, initializeFirestore} from 'firebase/firestore';
 
 // solving: https://github.com/firebase/firebase-js-sdk/issues/1847
 import {
@@ -39,11 +39,12 @@ if (getApps().length < 1) {
   auth = initializeAuth(app, {
     persistence: getReactNativePersistence(AsyncStorage),
   });
-  db = getFirestore(app);
+  db = initializeFirestore(app, {
+    experimentalForceLongPolling: true,
+  });
 } else {
   app = getApp();
   auth = getAuth();
   db = getFirestore();
 }
 // const analytics = getAnalytics(app);
-export {auth, db};
