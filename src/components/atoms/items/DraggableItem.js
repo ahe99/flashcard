@@ -149,10 +149,6 @@ export const DraggableItem = ({
                       name={iconPrefix.name}
                       type={iconPrefix.type}
                       color={iconPrefix.color ?? colors.icon}
-                      style={{
-                        justifyContent: 'center',
-                        flex: 1,
-                      }}
                     />
                   )}
                   {label && (

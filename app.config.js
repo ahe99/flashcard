@@ -2,27 +2,35 @@ import 'dotenv/config';
 
 export default {
   expo: {
-    name: 'flashcard',
+    name: 'Flashcard',
     slug: 'flashcard',
-    version: '1.0.0',
+    privacy: 'unlisted',
+    version: '0.1.0',
     orientation: 'portrait',
     icon: './assets/icon.png',
     splash: {
       image: './assets/splash.png',
       resizeMode: 'contain',
-      backgroundColor: '#ffffff',
+      backgroundColor: '#fff1e6',
+    },
+    runtimeVersion: {
+      policy: 'sdkVersion',
     },
     updates: {
-      fallbackToCacheTimeout: 0,
+      fallbackToCacheTimeout: 10,
+      url: 'https://u.expo.dev/25f5a515-67fa-4180-a47e-1d0d1a67ea3f',
     },
     assetBundlePatterns: ['**/*'],
     ios: {
       supportsTablet: true,
+      bundleIdentifier: 'com.river.flashcard',
     },
     android: {
+      package: 'com.river.flashcard',
+      versionCode: 1,
       adaptiveIcon: {
         foregroundImage: './assets/adaptive-icon.png',
-        backgroundColor: '#FFFFFF',
+        backgroundColor: '#fff1e6',
       },
     },
     web: {
@@ -38,6 +46,9 @@ export default {
     facebookAutoLogAppEventsEnabled: true,
     facebookAdvertiserIDCollectionEnabled: true,
     extra: {
+      eas: {
+        projectId: '25f5a515-67fa-4180-a47e-1d0d1a67ea3f',
+      },
       facebookNativeAdsIosID: process.env.FACEBOOK_NATIVE_ADS_ID_IOS,
       facebookNativeAdsAndroidID: process.env.FACEBOOK_NATIVE_ADS_ID_ANDROID,
       facebookRewardAdsIosID: process.env.FACEBOOK_REWARD_ADS_ID_IOS,

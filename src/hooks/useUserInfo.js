@@ -18,6 +18,7 @@ export const useUserInfo = () => {
   const {getToken} = useToken();
   const db = getFirestore();
 
+  const [userId, setUserId] = useState('');
   const [userName, setUserName] = useState('');
   const [userStackSettings, setUserStackSettings] = useState({});
 
@@ -26,24 +27,28 @@ export const useUserInfo = () => {
   }, []);
 
   const loadUserInfo = async () => {
-    const userDocRef = doc(db, 'users', await getToken());
+    const userId = await getToken();
+    const userDocRef = doc(db, 'users', userId);
     const docSnap = await getDoc(userDocRef);
     if (docSnap.exists()) {
+      setUserId(userId);
       setUserName(docSnap.data().name);
       setUserStackSettings(docSnap.data().stack_setting);
     }
   };
 
-  const updateUserStackSettings = async data => {
+  const updateStackSettings = async data => {
     const userDocRef = doc(db, 'users', await getToken());
     await updateDoc(userDocRef, {
       stack_setting: data,
     });
+    setUserStackSettings(data);
   };
 
   return {
+    id: userId,
     name: userName,
     stackSettings: userStackSettings,
-    updateUserStackSettings,
+    updateStackSettings,
   };
 };

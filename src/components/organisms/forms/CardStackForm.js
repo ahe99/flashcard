@@ -2,9 +2,8 @@ import React, {useEffect, useState, useMemo} from 'react';
 import {View, ScrollView} from 'react-native';
 
 import {Row, Column} from '$layouts/layout';
-import {useUserInfo} from '$hooks';
 
-import {StyleText, Input, Button} from '$components/atoms';
+import {StyleText, Input, Button, Loader} from '$components/atoms';
 import {Checkbox, MultiCheckbox} from '$components/molecules';
 
 export const CardStackForm = ({
@@ -12,9 +11,10 @@ export const CardStackForm = ({
   submit,
   cancel = () => {},
   groupList = [],
-  wrapperStyle = {},
+  stackSettings = {},
 }) => {
   const [data, setData] = useState({});
+  const [isSubmiting, setIsSubmiting] = useState(false);
 
   const groupOptions = useMemo(
     () =>
@@ -25,13 +25,11 @@ export const CardStackForm = ({
     [groupList],
   );
 
-  const userInfo = useUserInfo();
-
   useEffect(() => {
-    if (userInfo && Object.keys(data).length === 0) {
-      setData(userInfo.stackSettings);
+    if (stackSettings && Object.keys(data).length === 0) {
+      setData(stackSettings);
     }
-  }, [userInfo]);
+  }, [stackSettings]);
 
   const onChange = (key, val) => {
     setData(prev => ({...prev, [key]: val}));
@@ -39,60 +37,58 @@ export const CardStackForm = ({
 
   const check = async () => {
     console.log('check');
+    setIsSubmiting(true);
     if (submit) {
-      userInfo.updateUserStackSettings(data);
       submit(data);
     }
   };
 
   return (
-    <View style={wrapperStyle}>
-      <ScrollView contentContainerStyle={{flexGrow: 1}}>
-        <Column
-          flex={1}
-          v="center"
-          h="center"
-          style={{
-            width: '100%',
-            height: '100%',
-            padding: 20,
-          }}>
-          <StyleText>{title}</StyleText>
-          <MultiCheckbox
-            label="groups"
-            data={data['groups']}
-            onChange={val => onChange('groups', val)}
-            options={groupOptions}
+    <>
+      {isSubmiting && <Loader />}
+      <Column
+        flex={1}
+        v="center"
+        h="center"
+        style={{
+          width: '100%',
+          height: '100%',
+          padding: 20,
+        }}>
+        <StyleText>{title}</StyleText>
+        <MultiCheckbox
+          label="groups"
+          data={data['groups']}
+          onChange={val => onChange('groups', val)}
+          options={groupOptions}
+        />
+        <Checkbox
+          label="num of cards"
+          data={data['numbers']}
+          options={[
+            {label: 1, value: 1},
+            {label: 5, value: 5},
+            {label: 10, value: 10},
+            {label: 15, value: 15},
+            {label: 20, value: 20},
+          ]}
+          onChange={val => onChange('numbers', val)}
+        />
+        <Row h="space-around" style={{paddingTop: 20, width: '100%'}}>
+          <Button
+            onPress={cancel}
+            iconPrefix={{
+              name: 'arrow-left',
+            }}
           />
-          <Checkbox
-            label="num of cards"
-            data={data['numbers']}
-            options={[
-              {label: 1, value: 1},
-              {label: 5, value: 5},
-              {label: 10, value: 10},
-              {label: 15, value: 15},
-              {label: 20, value: 20},
-            ]}
-            onChange={val => onChange('numbers', val)}
+          <Button
+            onPress={check}
+            iconPrefix={{
+              name: 'check',
+            }}
           />
-          <Row h="space-around" style={{paddingTop: 20, width: '100%'}}>
-            <Button
-              onPress={cancel}
-              disabled={true}
-              iconPrefix={{
-                name: 'arrow-left',
-              }}
-            />
-            <Button
-              onPress={check}
-              iconPrefix={{
-                name: 'check',
-              }}
-            />
-          </Row>
-        </Column>
-      </ScrollView>
-    </View>
+        </Row>
+      </Column>
+    </>
   );
 };

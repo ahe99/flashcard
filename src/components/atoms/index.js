@@ -19,3 +19,4 @@ export * from './items/NormalItem';
 
 export * from './textual/Link';
 export * from './textual/StyleText';
+export * from './textual/Title';

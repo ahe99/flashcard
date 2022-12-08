@@ -14,6 +14,9 @@ import {
   where,
 } from 'firebase/firestore';
 
+//to fix: need to import this and put it here which is wierd
+import {db} from '$config/firebase';
+
 import {useToken} from './useToken';
 
 export function useGroups() {
@@ -81,10 +84,10 @@ export function useGroups() {
   }, []);
 
   return {
-    groupList,
-    createGroup,
-    updateGroup,
-    deleteGroup,
+    data: groupList,
+    create: createGroup,
+    update: updateGroup,
+    delete: deleteGroup,
     isLoading,
     isError,
   };

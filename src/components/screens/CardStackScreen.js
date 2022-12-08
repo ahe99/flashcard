@@ -1,90 +1,170 @@
-import React, {useMemo, useState, useEffect, useRef} from 'react';
-import {View, ImageBackground} from 'react-native';
+import React, {useEffect, useMemo, useState, useRef} from 'react';
+import {View} from 'react-native';
+import moment from 'moment';
 
-import {useCards, useGroups} from '$hooks';
+import {useCards, useGroups, useUserInfo, useTestRecords} from '$hooks';
 import {shuffle} from '$utils/random';
 import {height, width} from '$helpers/dimensions';
 import images from '$images';
 
+import {Button} from '$components/atoms';
+import {Modal} from '$components/molecules';
 import {CardStackForm} from '$components/organisms';
-import {CardStack} from '$components/templates';
+import {CardStack, DIRECTION, ImageBackground} from '$components/templates';
+
+const SCREEN_ACTION = {
+  DEFALUT: 0,
+  SETTING: 1,
+  STACK: 2,
+};
 
 export const CardStackScreen = () => {
-  const [selectedGroups, setSelectedGroups] = useState([]);
-  const [selectedNum, setSelectedNum] = useState(5);
-  const [onSelect, setOnSelect] = useState(true);
-
+  const [selected, setSelected] = useState({
+    groups: [],
+    numbers: 5,
+  });
+  const [currentAction, setCurrentAction] = useState(SCREEN_ACTION.DEFALUT);
   const [testRound, setTestRound] = useState(1);
+  const swipedCards = useRef([]);
 
-  const {groupList} = useGroups();
-  const {cardList} = useCards();
+  const user = useUserInfo();
+  const records = useTestRecords();
+  const groups = useGroups();
+  const cards = useCards();
 
-  const filteredList = useMemo(() => {
-    let cards = [...cardList];
+  useEffect(() => {
+    if (user.stackSettings) {
+      setSelected({
+        numbers: user.stackSettings.numbers ?? 5,
+        group: user.stackSettings.groups ?? [],
+      });
+    }
+  }, [user.stackSettings]);
 
-    if (selectedGroups) {
-      cards = cards.filter(({group}) => selectedGroups.includes(group));
+  const filteredCardList = useMemo(() => {
+    let resultStack = [...cards.data];
+
+    if (selected.groups) {
+      resultStack = resultStack.filter(({group}) =>
+        selected.groups.includes(group),
+      );
     }
 
-    cards = shuffle(cards);
+    resultStack = shuffle(resultStack);
 
-    if (selectedNum) {
-      if (selectedNum < cards.length) {
-        cards = cards.slice(0, selectedNum);
+    if (selected.numbers) {
+      if (selected.numbers < resultStack.length) {
+        resultStack = resultStack.slice(0, selected.numbers);
       }
     }
 
-    return cards;
-  }, [cardList, selectedGroups, testRound]);
+    return resultStack;
+  }, [cards.data, selected.groups, selected.numbers, testRound]);
 
   const submit = async data => {
-    console.log(data);
-    setSelectedGroups(data.groups);
-    setSelectedNum(Number(data.numbers));
-    setOnSelect(false);
+    await user.updateStackSettings(data);
+
+    setSelected({
+      numbers: Number(data.numbers),
+      group: data.groups ?? [],
+    });
+    setCurrentAction(SCREEN_ACTION.DEFALUT);
   };
 
-  const cancel = async () => {};
+  const cancel = async () => {
+    setCurrentAction(SCREEN_ACTION.DEFALUT);
+  };
 
-  const onStackEmpty = () => {
+  const startStack = async () => {
+    setCurrentAction(SCREEN_ACTION.STACK);
+  };
+
+  const settingStack = async () => {
+    setCurrentAction(SCREEN_ACTION.SETTING);
+  };
+
+  const handleSwipe = (card, direction) => {
+    if (direction === DIRECTION.RIGHT) {
+      swipedCards.current = [
+        ...swipedCards.current,
+        {card_id: card.id, card_title: card.title, type: 'up'},
+      ];
+    } else if (direction === DIRECTION.LEFT) {
+      swipedCards.current = [
+        ...swipedCards.current,
+        {card_id: card.id, card_title: card.title, type: 'down'},
+      ];
+    } else {
+      //...
+    }
+  };
+
+  const handleSwipeEnd = async () => {
+    await records.create({records: swipedCards.current});
+
+    swipedCards.current = [];
     setTestRound(prev => prev + 1);
   };
 
+  const goBackFromStack = async () => {
+    setCurrentAction(SCREEN_ACTION.DEFALUT);
+  };
+
   return (
-    <ImageBackground
-      style={{
-        width: width,
-        height: height,
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}
-      source={images.background.cardStack}>
-      <View style={{justifyContent: 'center', alignItems: 'center'}}>
-        {onSelect ? (
-          <View
-            style={{
-              width: width * 0.8,
-              height: height * 0.6,
-              backgroundColor: '#fff9',
-              borderRadius: 20,
-            }}>
-            <CardStackForm
-              title="card stack form"
-              groupList={groupList}
-              submit={submit}
-              cancel={cancel}
-            />
-          </View>
-        ) : (
-          <CardStack
-            cardList={filteredList}
-            goBack={() => setOnSelect(true)}
-            selectedGroups={selectedGroups}
-            selectedNum={selectedNum}
-            onStackEmpty={onStackEmpty}
+    <ImageBackground source={images.background.cardStack}>
+      {currentAction === SCREEN_ACTION.STACK ? (
+        <CardStack
+          cardList={filteredCardList}
+          goBack={goBackFromStack}
+          selectedGroups={selected.groups}
+          selectedNum={selected.numbers}
+          onSwipe={handleSwipe}
+          onStackEmpty={handleSwipeEnd}
+        />
+      ) : (
+        <View
+          style={{
+            width: width * 0.9,
+            height: height * 0.6,
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: '#fff9',
+            borderRadius: 20,
+          }}>
+          <Button
+            wrapperStyle={{width: 100, height: 100}}
+            onPress={startStack}
+            iconPrefix={{name: 'play', size: 40}}
+            disabled={!filteredCardList?.length}
           />
-        )}
-      </View>
+          <Button
+            wrapperStyle={{
+              width: 100,
+              height: 100,
+              top: 0,
+              right: 0,
+              position: 'absolute',
+              zIndex: 5,
+              borderWidth: 0,
+              backgroundColor: 'transparent',
+            }}
+            showShadow={false}
+            onPress={settingStack}
+            iconPrefix={{name: 'cog', size: 30}}
+          />
+        </View>
+      )}
+      {currentAction === SCREEN_ACTION.SETTING && (
+        <Modal onClose={cancel}>
+          <CardStackForm
+            title="card stack form"
+            groupList={groups.data}
+            submit={submit}
+            cancel={cancel}
+            stackSettings={user.stackSettings}
+          />
+        </Modal>
+      )}
     </ImageBackground>
   );
 };

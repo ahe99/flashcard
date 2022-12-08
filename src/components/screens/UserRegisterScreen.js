@@ -1,11 +1,12 @@
 import React from 'react';
-import {View, ImageBackground} from 'react-native';
+import {View} from 'react-native';
 
 import {useAuth} from '$hooks';
 import {height, width} from '$helpers/dimensions';
 import images from '$images';
 
 import {UserRegisterForm} from '$components/organisms';
+import {ImageBackground} from '$components/templates';
 
 export const UserRegisterScreen = ({navigation}) => {
   const {register} = useAuth();
@@ -19,14 +20,7 @@ export const UserRegisterScreen = ({navigation}) => {
   };
 
   return (
-    <ImageBackground
-      style={{
-        width: width,
-        height: height,
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}
-      source={images.background.register}>
+    <ImageBackground source={images.background.register}>
       <View
         style={{
           width: width * 0.8,

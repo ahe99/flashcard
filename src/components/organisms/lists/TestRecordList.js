@@ -4,12 +4,9 @@ import {Column} from '$layouts/layout';
 
 import {DateRecordItem, CardRecordItem} from '$components/molecules';
 
-export const TestRecordList = ({testRecords = [], wrapperStyle = {}}) => {
+export const TestRecordList = ({testRecords = []}) => {
   return (
-    <Column
-      h="center"
-      v="center"
-      style={[wrapperStyle, {width: wrapperStyle.width ?? '100%'}]}>
+    <Column h="center" v="center" style={{width: '100%', padding: 20}}>
       {Object.keys(testRecords).map(date => (
         <DateRecordItem key={date} date={date}>
           {testRecords[date].map((record, index) => (

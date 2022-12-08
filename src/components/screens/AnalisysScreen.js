@@ -1,36 +1,50 @@
 import React, {useEffect} from 'react';
-import {ImageBackground} from 'react-native';
-
+import {View, ScrollView} from 'react-native';
+import {useIsFocused} from '@react-navigation/native';
 
 import {Column} from '$layouts/layout';
 import {useTestRecords} from '$hooks';
 import {height, width} from '$helpers/dimensions';
-
 import images from '$images';
 
+import {Loader} from '$components/atoms';
 import {TestRecordList} from '$components/organisms';
+import {ImageBackground} from '$components/templates';
 
 export const AnalisysScreen = props => {
-  const {testRecords} = useTestRecords();
+  const records = useTestRecords();
+  const isFocused = useIsFocused();
+
+  useEffect(() => {
+    if (isFocused) {
+      records.reload();
+    }
+  }, [isFocused]);
 
   return (
-    <ImageBackground
-      style={{
-        width: width,
-        height: height,
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}
-      source={images.background.anasisys}>
-      <Column
-        v="center"
-        h="center"
+    <ImageBackground source={images.background.anasisys}>
+      <View
         style={{
-          width: '100%',
-          backgroundColor: 'rgb(200,110,60)',
+          width: width * 0.9,
+          height: height * 0.7,
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: '#fff9',
+          borderRadius: 20,
         }}>
-        <TestRecordList testRecords={testRecords} />
-      </Column>
+        <ScrollView
+          contentContainerStyle={{
+            flexGrow: 1,
+            justifyContent: 'center',
+          }}
+          style={{width: '100%', height: '100%'}}>
+          {records.isLoading ? (
+            <Loader />
+          ) : (
+            <TestRecordList testRecords={records.data} />
+          )}
+        </ScrollView>
+      </View>
     </ImageBackground>
   );
 };

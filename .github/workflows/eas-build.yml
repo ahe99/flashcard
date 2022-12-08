@@ -1,0 +1,65 @@
+name: EAS Build
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      # - develop
+      - main
+
+jobs:
+  build:
+    name: Install and build
+    runs-on: ubuntu-latest
+    env:
+      EAS_PROJECT_ID: 25f5a515-67fa-4180-a47e-1d0d1a67ea3f
+    steps:
+      - name: Setup repo
+        uses: actions/checkout@v2
+
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16.x
+          cache: npm
+
+      - name: Setup .env
+        run: | 
+          sed -i "s@.env@@g" .gitignore
+          echo EAS_PROJECT_ID = $EAS_PROJECT_ID > .env
+          echo FIREBASE_API_KEY = ${{secrets.FIREBASE_API_KEY}} >> .env
+          echo FIREBASE_AUTH_DOMAIN = ${{secrets.FIREBASE_AUTH_DOMAIN}} >> .env
+          echo FIREBASE_PROJECT_ID = ${{secrets.FIREBASE_PROJECT_ID}} >> .env
+          echo FIREBASE_STORAGE_BUCKET = ${{secrets.FIREBASE_STORAGE_BUCKET}} >> .env
+          echo FIREBASE_MESSAGING_SENDER_ID = ${{secrets.FIREBASE_MESSAGING_SENDER_ID}} >> .env
+          echo FIREBASE_APP_ID = ${{secrets.FIREBASE_APP_ID}} >> .env
+          echo FIREBASE_MEASUREMENT_ID = ${{secrets.FIREBASE_MEASUREMENT_ID}} >> .env
+          echo FACEBOOK_SCHEME = ${{secrets.FACEBOOK_SCHEME}} >> .env
+          echo FACEBOOK_APP_ID = ${{secrets.FACEBOOK_APP_ID}} >> .env
+          echo FACEBOOK_NATIVE_ADS_ID_ANDROID = ${{secrets.FACEBOOK_NATIVE_ADS_ID_ANDROID}} >> .env
+          echo FACEBOOK_REWARD_ADS_ID_ANDROID = ${{secrets.FACEBOOK_REWARD_ADS_ID_ANDROID}} >> .env
+          echo FACEBOOK_NATIVE_ADS_ID_IOS = ${{secrets.FACEBOOK_NATIVE_ADS_ID_IOS}} >> .env
+          echo FACEBOOK_REWARD_ADS_ID_IOS = ${{secrets.FACEBOOK_REWARD_ADS_ID_IOS}} >> .env
+
+      - name: Setup Expo and EAS
+        uses: expo/expo-github-action@v7
+        with:
+          expo-version: latest
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      # - name: Verify Changed files
+      #   uses: tj-actions/verify-changed-files@v11.1
+      #   id: verify-changed-files
+      #   with:
+      #     files: |
+      #       *.config.js
+      #       eas-build.yml
+      #       eas.json
+
+      - name: Install dependencies
+        # if: steps.verify-changed-files.outputs.files_changed == 'true'
+        run: npm ci --legacy-peer-deps
+
+      - name: Build app
+        # if: steps.verify-changed-files.outputs.files_changed == 'true'
+        run: eas build --profile ${GITHUB_REF_NAME} --platform all --non-interactive

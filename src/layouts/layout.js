@@ -2,7 +2,7 @@
 import React from 'react';
 import {TouchableOpacity, View} from 'react-native';
 
-const Row = ({v, h, children, style, flex}) => {
+const Row = ({v, h, children, style, flex, ...props}) => {
   return (
     <View
       style={[
@@ -13,7 +13,8 @@ const Row = ({v, h, children, style, flex}) => {
           justifyContent: h,
           flex: flex,
         },
-      ]}>
+      ]}
+      {...props}>
       {children}
     </View>
   );

@@ -14,6 +14,8 @@ import {
   where,
 } from 'firebase/firestore';
 
+//to fix: need to import this and put it here which is wierd
+import {db} from '$config/firebase';
 import {useToken} from './useToken';
 
 export function useCards() {
@@ -88,10 +90,10 @@ export function useCards() {
   }, []);
 
   return {
-    cardList,
-    createCard,
-    updateCard,
-    deleteCard,
+    data: cardList,
+    create: createCard,
+    update: updateCard,
+    delete: deleteCard,
     isLoading,
     isError,
   };

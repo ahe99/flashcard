@@ -2,7 +2,7 @@
 import {getApps, getApp, initializeApp} from 'firebase/app';
 // import {getAnalytics} from 'firebase/analytics';
 import {getAuth} from 'firebase/auth';
-import {getFirestore} from 'firebase/firestore';
+import {getFirestore, initializeFirestore} from 'firebase/firestore';
 
 // solving: https://github.com/firebase/firebase-js-sdk/issues/1847
 import {
@@ -18,14 +18,16 @@ import Constants from 'expo-constants';
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+
+// for sdk 46 the path should be replaced with Constants.expoConfig
 const firebaseConfig = {
-  apiKey: Constants.manifest?.extra?.firebaseApiKey,
-  authDomain: Constants.manifest?.extra?.firebaseAuthDomain,
-  projectId: Constants.manifest?.extra?.firebaseProjectId,
-  storageBucket: Constants.manifest?.extra?.firebaseStorageBucket,
-  messagingSenderId: Constants.manifest?.extra?.firebaseMessagingSenderId,
-  appId: Constants.manifest?.extra?.firebaseAppId,
-  measurementId: Constants.manifest?.extra?.measurementId,
+  apiKey: Constants.expoConfig.extra.firebaseApiKey,
+  authDomain: Constants.expoConfig.extra.firebaseAuthDomain,
+  projectId: Constants.expoConfig.extra.firebaseProjectId,
+  storageBucket: Constants.expoConfig.extra.firebaseStorageBucket,
+  messagingSenderId: Constants.expoConfig.extra.firebaseMessagingSenderId,
+  appId: Constants.expoConfig.extra.firebaseAppId,
+  measurementId: Constants.expoConfig.extra.measurementId,
 };
 let app;
 let auth;
@@ -37,11 +39,12 @@ if (getApps().length < 1) {
   auth = initializeAuth(app, {
     persistence: getReactNativePersistence(AsyncStorage),
   });
-  db = getFirestore(app);
+  db = initializeFirestore(app, {
+    experimentalForceLongPolling: true,
+  });
 } else {
   app = getApp();
   auth = getAuth();
   db = getFirestore();
 }
 // const analytics = getAnalytics(app);
-export {auth, db};

@@ -4,17 +4,11 @@ import {View, ScrollView} from 'react-native';
 
 import {Row, Column} from '$layouts/layout';
 
-import {StyleText, Input, Button} from '$components/atoms';
+import {StyleText, Input, Button, Loader} from '$components/atoms';
 
-export const GroupForm = ({
-  title,
-  groupId,
-  submit,
-  cancel,
-  groupList = [],
-  wrapperStyle = {},
-}) => {
+export const GroupForm = ({title, groupId, submit, cancel, groupList = []}) => {
   const [data, setData] = useState({});
+  const [isSubmiting, setIsSubmiting] = useState(false);
 
   useEffect(() => {
     if (groupId && groupList) {
@@ -28,45 +22,45 @@ export const GroupForm = ({
 
   const check = async () => {
     console.log('check');
+    setIsSubmiting(true);
     if (submit) {
       submit(data);
     }
   };
 
   return (
-    <View style={wrapperStyle}>
-      <ScrollView contentContainerStyle={{flexGrow: 1}}>
-        <Column
-          flex={1}
-          v="center"
-          h="center"
-          style={{
-            width: '100%',
-            height: '100%',
-            padding: 20,
-          }}>
-          <StyleText>{title}</StyleText>
-          <Input
-            label="name"
-            value={data['title']}
-            onChange={val => onChange('title', val)}
+    <>
+      {isSubmiting && <Loader />}
+      <Column
+        flex={1}
+        v="center"
+        h="center"
+        style={{
+          width: '100%',
+          height: '100%',
+          padding: 20,
+        }}>
+        <StyleText>{title}</StyleText>
+        <Input
+          label="name"
+          value={data['title']}
+          onChange={val => onChange('title', val)}
+        />
+        <Row h="space-around" style={{paddingTop: 20, width: '100%'}}>
+          <Button
+            onPress={cancel}
+            iconPrefix={{
+              name: 'arrow-left',
+            }}
           />
-          <Row h="space-around" style={{paddingTop: 20, width: '100%'}}>
-            <Button
-              onPress={cancel}
-              iconPrefix={{
-                name: 'arrow-left',
-              }}
-            />
-            <Button
-              onPress={check}
-              iconPrefix={{
-                name: 'save',
-              }}
-            />
-          </Row>
-        </Column>
-      </ScrollView>
-    </View>
+          <Button
+            onPress={check}
+            iconPrefix={{
+              name: 'save',
+            }}
+          />
+        </Row>
+      </Column>
+    </>
   );
 };

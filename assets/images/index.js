@@ -8,4 +8,5 @@ const images = {
     settings: require('./background/SettingsScreen.jpg'),
   },
 };
+
 export default images;
