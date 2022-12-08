@@ -93,7 +93,6 @@ export const CardListScreen = () => {
       {onEditCard && (
         <Modal onClose={() => setOnEditCard(false)}>
           <CardForm
-            title="Card form"
             cardId={cardId}
             submit={submitCardForm}
             cancel={() => setOnEditCard(false)}
@@ -105,7 +104,6 @@ export const CardListScreen = () => {
       {onEditGroup && (
         <Modal onClose={() => setOnEditGroup(false)}>
           <GroupForm
-            title="Group form"
             groupId={groupId}
             submit={submitGroupForm}
             cancel={() => setOnEditGroup(false)}
@@ -118,7 +116,7 @@ export const CardListScreen = () => {
           <StyleText style={{padding: 40}}>
             Are you sure want to delete?
           </StyleText>
-          <Row h="space-between" style={{paddingBottom: 10}}>
+          <Row h="space-around" style={{paddingBottom: 10}}>
             <Button
               iconPrefix={{name: 'close'}}
               onPress={() => setOnDeleteCard(false)}
@@ -138,7 +136,7 @@ export const CardListScreen = () => {
           <StyleText style={{padding: 40}}>
             Are you sure want to delete?
           </StyleText>
-          <Row h="space-between" style={{paddingBottom: 10}}>
+          <Row h="space-around" style={{paddingBottom: 10}}>
             <Button
               iconPrefix={{name: 'close'}}
               onPress={() => setOnDeleteGroup(false)}

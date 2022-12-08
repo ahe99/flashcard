@@ -12,16 +12,16 @@ export const CardItem = ({
 }) => {
   const [isShow, setIsShow] = useState(show);
   const options = [
-    {
-      onPress: () => {
-        setIsShow(prev => !prev);
-        toggleVisibleCard(id, show);
-      },
-      disabled: false,
-      iconPrefix: {
-        name: isShow ? 'eye' : 'eye-slash',
-      },
-    },
+    // {
+    //   onPress: () => {
+    //     setIsShow(prev => !prev);
+    //     toggleVisibleCard(id, show);
+    //   },
+    //   disabled: false,
+    //   iconPrefix: {
+    //     name: isShow ? 'eye' : 'eye-slash',
+    //   },
+    // },
     {
       onPress: () => {
         editCard(id);

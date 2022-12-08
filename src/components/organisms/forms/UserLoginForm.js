@@ -3,7 +3,7 @@ import {View, ScrollView} from 'react-native';
 
 import {Row, Column} from '$layouts/layout';
 
-import {StyleText, Input, Button, Loader} from '$components/atoms';
+import {StyleText, Title, Input, Button, Loader} from '$components/atoms';
 
 export const UserLoginForm = ({title, submit, cancel}) => {
   const [data, setData] = useState({});
@@ -17,8 +17,9 @@ export const UserLoginForm = ({title, submit, cancel}) => {
     console.log('check');
     setIsSubmiting(true);
     if (submit) {
-      submit(data);
+      await submit(data);
     }
+    setIsSubmiting(false);
   };
 
   return (
@@ -33,17 +34,16 @@ export const UserLoginForm = ({title, submit, cancel}) => {
           height: '100%',
           padding: 20,
         }}>
-        <StyleText>{title}</StyleText>
+        <Title>{title}</Title>
         <Input
-          label="email"
+          wrapperStyle={{marginTop: 40, marginBottom: 20}}
           value={data['email']}
-          placeholder="kono@example.com"
+          placeholder="kouno@example.com"
           onChange={val => onChange('email', val)}
           multiline={false}
           iconPrefix={{name: 'envelope-o'}}
         />
         <Input
-          label="password"
           value={data['password']}
           onChange={val => onChange('password', val)}
           multiline={false}
@@ -56,6 +56,7 @@ export const UserLoginForm = ({title, submit, cancel}) => {
             iconPrefix={{
               name: 'pencil',
             }}
+            disabled={true}
           />
           <Button
             onPress={check}

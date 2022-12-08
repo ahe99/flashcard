@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, ScrollView} from 'react-native';
+import {View, ScrollView, Pressable} from 'react-native';
 import {useTheme} from '@react-navigation/native';
 
 import {Column} from '$layouts/layout';
@@ -17,7 +17,7 @@ export const Modal = ({children, onClose}) => {
     fonts: {sizes},
   } = useTheme();
   return (
-    <View
+    <Pressable
       style={{
         width: width,
         height: height,
@@ -28,60 +28,46 @@ export const Modal = ({children, onClose}) => {
         zIndex: 10,
         alignItems: 'center',
         justifyContent: 'center',
-      }}>
-      <Column
-        h="center"
+      }}
+      onPress={onClose}>
+      <Pressable
         style={{
           width: SIZE_WIDTH,
           height: SIZE_HEIGHT,
+          alignItems: 'center',
           borderWidth: 3,
           borderColor: colors.border,
           borderRadius: 20,
           paddingVertical: 20,
           backgroundColor: bgColors.modalOuter,
           shadowColor: '#000',
-          elevation: 10,
+        }}
+        onPress={e => {
+          e.stopPropagation();
         }}>
         <Column
           v="center"
           h="center"
           style={{
             width: '90%',
+            height: '100%',
             borderRadius: 20,
             backgroundColor: bgColors.modalInner,
-          }}>
-          <View
-            style={{
-              width: '100%',
-              justifyContent: 'flex-end',
-            }}>
-            <Button
-              iconPrefix={{name: 'close'}}
-              onPress={onClose}
-              showShadow={false}
-              wrapperStyle={{
-                top: 0,
-                right: 0,
-                position: 'absolute',
-                zIndex: 5,
-                borderWidth: 0,
-                backgroundColor: 'transparent',
-              }}
-            />
-          </View>
+          }}
+          // onStartShouldSetResponder={() => true}
+        >
           <ScrollView
             style={{
               width: '100%',
-              height: '100%',
             }}
             contentContainerStyle={{
               flexGrow: 1,
               justifyContent: 'center',
             }}>
-            {children}
+            <View onStartShouldSetResponder={() => true}>{children}</View>
           </ScrollView>
         </Column>
-      </Column>
-    </View>
+      </Pressable>
+    </Pressable>
   );
 };

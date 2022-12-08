@@ -63,25 +63,44 @@ export function useTestRecords() {
       formatedData[created_at] = [...formatedData[created_at], ...records];
     });
 
-    // console.log(formatedData);
-
     setTestRecords(formatedData);
     setIsLoading(false);
   };
 
   const reloadTestRecords = async () => {
-    const docRef = query(
-      testsCollection,
-      where('owner', '==', await getToken()),
-      orderBy('created_at', 'desc'),
-    );
+    if (!isLoading) {
+      setIsLoading(true);
+      const docRef = query(
+        testsCollection,
+        where('owner', '==', await getToken()),
+        orderBy('created_at', 'desc'),
+      );
 
-    const docSnap = await getDocs(docRef);
-    let data = [];
-    docSnap.forEach(doc => {
-      data.push(doc.data());
-    });
-    setTestRecords(data);
+      const docSnap = await getDocs(docRef);
+      let data = [];
+      docSnap.forEach(doc => {
+        data.push({
+          ...doc.data(),
+          created_at: formattedTimestampToDateTime(doc.data().created_at),
+        });
+      });
+
+      const dateList = data.map(({created_at}) => created_at);
+      const dateSet = [...new Set(dateList)];
+
+      let formatedData = {};
+
+      dateSet.forEach(date => {
+        formatedData = {...formatedData, [date]: []};
+      });
+
+      data.forEach(({created_at, records}) => {
+        formatedData[created_at] = [...formatedData[created_at], ...records];
+      });
+
+      setTestRecords(formatedData);
+      setIsLoading(false);
+    }
   };
 
   const createTestRecord = async data => {
@@ -122,6 +141,7 @@ export function useTestRecords() {
     create: createTestRecord,
     update: updateTestRecord,
     delete: deleteTestRecord,
+    reload: reloadTestRecords,
     isLoading,
     isError,
   };

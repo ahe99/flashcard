@@ -27,7 +27,11 @@ export const SettingsScreen = ({navigation}) => {
           borderRadius: 20,
           padding: 20,
         }}>
-        <Button label="logout" onPress={handleLogout} />
+        <Button
+          wrapperStyle={{width: 100, height: 100}}
+          onPress={handleLogout}
+          iconPrefix={{name: 'sign-out', size: 40}}
+        />
       </View>
     </ImageBackground>
   );

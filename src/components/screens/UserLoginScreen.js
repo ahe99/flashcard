@@ -13,7 +13,11 @@ export const UserLoginScreen = ({navigation}) => {
   const {getToken} = useToken();
 
   const submit = async data => {
-    await login(data);
+    try {
+      await login(data);
+    } catch (e) {
+      console.log(e);
+    }
     if (await getToken()) {
       navigation.navigate('HomeScreen');
     }
@@ -33,7 +37,7 @@ export const UserLoginScreen = ({navigation}) => {
           borderRadius: 20,
         }}>
         <UserLoginForm
-          title="Login form"
+          title="Flashcard"
           submit={submit}
           navigation={navigation}
           cancel={gotoRegisterScreen}
